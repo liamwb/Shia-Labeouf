@@ -112,6 +112,7 @@ while a != '!skip':
     #If they just type 'run'
     elif a == 'run':
         print('Run where?')
+        a = input()
         if check_direction(away_list, a) or (check_direction(away_list, a) and check_direction(at_shia, a)):
             running_for_your_life()
             break
@@ -195,7 +196,7 @@ else:
 bear_survived = False
 
 #TE is turns elapsed. When it reaches 6, the player dies of blood loss. If the player escapes the bear trap, then bear_survived is set to true.
-TE = 0
+TE = -1
 
 te = ['Your glance at your leg, and quickly avert your eyes, \nfighting the urge to throw up.',
       'You watch, mesmerised for a moment, \nas the blood continues to pump from your leg.',
@@ -218,22 +219,28 @@ while a != '!skip':
         print('UNFINISHED TEXT (you dun gud)')
         break
     #player tries to stand up
-    elif check_direction(up_list, a):
+    elif a in up_list:
         print('You attempt to stand, but your bad leg buckles, \nand the weight of the bear trap pulls you down to earth')
-        print(te[TE])
         TE += 1
+        print(te[TE])
         a = input().lower()
     #player tries to open or tear off the trap
     elif check_direction(off_trap_list, a):
         print('You try to pry open the trap, but you can\'t get any purchase on the bloodied metal.')
-        print(te[TE])
         TE += 1
+        print(te[TE])
         a = input().lower()
     #player looks around
     elif 'look' in a:
         print('To the south, you can make out a cottage, its lights glowing invitingly, \nbut the woods around you are dark and menacing.')
-        print(te[TE])
         TE += 1
+        print(te[TE])
+        a = input().lower()
+    #The player tries to crawl somewhere (this has a bleed penalty of 2)
+    elif 'crawl' in a.split(' '):
+        print('You begin to drag yourself along the rough forest floor, \nThe heavy bear trap catches on a root, \nand the trap bites into your leg anew, \nas even more blood gushes out.')
+        TE += 2
+        print(te[TE])
         a = input().lower()
     else:
         print('you wut mate (i dont understand)')
