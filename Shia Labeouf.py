@@ -251,8 +251,7 @@ while a != '!skip':
 
 #This bit should only be reached after a survivable encounter with the bear trap
 print('Gnawing off your leg \n(Quiet, quiet.)')
-print('Limping toward the cottage \n(Quiet, quiet.)')
-print('Sitting inside, Shia Labeouf.')
+
 
 print('Now there is a fight scene that is not yet implemented \nWould you like to (w)in the fight or (d)ie?')
 a = input().lower()

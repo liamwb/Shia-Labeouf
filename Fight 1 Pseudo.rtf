@@ -5,6 +5,18 @@
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 #Pseudo code for the first fight with Shia\
+#Using the random module from python to generate random numbers, in the pseudo code \'91RANDINT\'92 can represent the generation of a random number x where 1<x<13\
+\
+#Health of things\
+ShiaHealth = 100\
+PlayerHealth = 100\
+\
+# The adjusted odds of things happening depending on how the player enters the cottage\
+#in order, the odds go: 1/2, 1/3, 1/4, 1/6, 1/12\
+#	\
+snunkIn = [\
+\
+\
 \
 MODULE \'91COTTAGE\'92:\
 \
@@ -17,7 +29,7 @@ WHILE player has not entered the cottage successfully:\
 	IF a == \'91look\'92:\
 		THEN PRINT \'91the forest is dark, you can make out a cottage to the south\'85 etc\'92\
 	ELIF  a  says sneak or walk south:\
-		THEN PRINT \'91limping toward the cottage (quiet, quiet), Now you\'92re on the doorstep (quiet, quiet), Sitting inside, Shia Labeouf. Sharpening an axe (Shia Labeouf)\'85.\'92\
+		THEN they advance to the doorstep (the next while loop)\
 	ELIF  a  says run somewhere:\
 		THEN PRINT \'91Shia heard you and kills you\'92\
 		DEATH\
@@ -27,6 +39,28 @@ WHILE player has not entered the cottage successfully:\
 		THEN PRINT the help stuff\
 	ELSE:\
 		THEN PRINT \'91I don\'92t understand\'92\
+\
+#The player should either make it onto the doorstep, or die\
+PRINT \'91limping toward the cottage (quiet, quiet), Now you\'92re on the doorstep (quiet, quiet), Sitting inside, Shia Labeouf. Sharpening an axe (Shia Labeouf)\'85.\'92\
+\
+#Each turn the player waits on the doorstep, shia gets closer to finishing sharpening his axe, and noticing the player.\
+TurnsWaiting = 0\
+\
+WHILE player has not entered the fight scene proper by strangling Shia:\
+	IF TurnsWaiting > 3\
+	ELIF a == \'91look\'92:\
+		THEN PRINT \'91Shia is sitting in a high backed arm chair, with his back to the doorway, and to you.;\
+					You can hear the scraping of a whetstone against Shia\'92s axe,;\
+					Which seems to be the object of the entirety of Shia\'92s attention, for now\'85\'92;\
+					TurnsWaiting += 1;\
+	ELIF a say run inside/at shia:\
+		THEN \
+	\
+	\
+\
+	\
+\
+\
 	\
 \
 }
