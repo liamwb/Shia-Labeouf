@@ -48,6 +48,8 @@ PRINT \'91limping toward the cottage (quiet, quiet), Now you\'92re on the doorst
 #Each turn the player waits on the doorstep, shia gets closer to finishing sharpening his axe, and noticing the player.\
 TurnsWaiting = 0\
 \
+ExtraTurn = False\
+\
 WHILE player has not entered the fight scene proper:\
 	IF TurnsWaiting > 3:\
 		THEN shia spots you and throws his axe into your head\
@@ -85,13 +87,27 @@ WHILE player has not entered the fight scene proper:\
 					ENDWHILE\
 				ELSEIF tip the chair over:\
 					THEN shiaHealth -=10\
-					WORK OUT HOW TO DO THIS COZ YOU GET AN EXTRA TURN\
+					ExtraTurn = True\
 					ENDWHILE\
 		ENDWHILE\
 \
 	\
 	\
 #\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+IF ExtraTurn == True:\
+	\'85\
+\
+\
+\
+WHILE the fight is ongoing:\
+	\
+\
+\
+\
+\
+\
+\
+\
 	\
 END MODULE COTTAGE\
 \
