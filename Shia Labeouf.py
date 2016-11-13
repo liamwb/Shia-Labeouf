@@ -203,7 +203,8 @@ te = ['Your glance at your leg, and quickly avert your eyes, \nfighting the urge
       'Your leg continues to bleed, \nyour hands feel numb, but at least the pain is beginning to receed.',
       'The ground around you is stained red, \nthe same colour as the horizon, stained by the dying sun.',
       'You notice that the blood flowing from your leg seems to have slowed, \nyou stare into the gory mouth of the bear trap and doze off for a minute, \nwaking with a start.',
-      'Your body is growing number by the minute. \nYou know that if you do not escape the trap soon, you will perish.']
+      'Your body is growing number by the minute. \nYou know that if you do not escape the trap soon, you will perish.',
+      '']
       
 
 
