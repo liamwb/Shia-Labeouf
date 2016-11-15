@@ -5,7 +5,7 @@
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 #Pseudo code for the first fight with Shia\
-#Using the random module from python to generate random numbers, in the pseudo code \'91RANDINT\'92 can represent the generation of a random number x where 0<x<=120\
+#Using the random module from python to generate random numbers, in the pseudo code \'91RANDINT\'92 can represent the generation of a random number x where 0<x<=120, unless otherwise specified.\
 \
 #Health of things\
 shiaHealth = 150\
@@ -99,7 +99,14 @@ WHILE player has not entered the fight scene proper:\
 	\
 #\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
 \
-DEFINE SHIAMOVES:\
+#Function that determines what Shia does with his life and part of how the player reacts\
+#25% of the time Shia skips his turn and regenerates 10-20 health\
+#50% of the time Shia attacks the player conventionally\
+#25% of the time Shia tries to eat a bit of the player\
+DEFINE SHIAMOVES(shiaHealth, theOdds):\
+	Dec1 = RANDINT(1, 100)\
+	IF Dec1 < 26\
+\
 	\
 \
 IF ExtraTurn == True:\
@@ -115,6 +122,7 @@ WHILE the fight is ongoing:\
 		THEN DEATH\
 	ELSEIF shiaHealth == 0:\
 		THEN ENDWHILE\
+\
 	ELSEIF a says attack his head:\
 		THEN;\
 		IF RANDINT > theOdds[3]:\
