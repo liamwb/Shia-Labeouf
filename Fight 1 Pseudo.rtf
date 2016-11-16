@@ -124,7 +124,8 @@ FUNCTION SHIAMOVES(theOdds):\
 \
 	#Skipped turn and health regen\
 	IF Dec1 < 26:\
-		THEN\
+		THEN shiaHealth -= RANDINT(10, 20)\
+		END FUNCTION\
 	\
 	#Conventional Attack\
 	ELSEIF 25 < Dec1 < 76:\
@@ -154,6 +155,7 @@ FUNCTION SHIAMOVES(theOdds):\
 				ELSE:\
 					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
 					CONTINUE\
+			ENDFUNCTION\
 \
 		#Straight left\
 		ELSEIF Dec2 < 21:\
@@ -181,6 +183,7 @@ FUNCTION SHIAMOVES(theOdds):\
 				ELSE:\
 					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
 					CONTINUE\
+			ENDFUNCTION\
 \
 		#left hook\
 		ELSEIF Dec2 < 31\
@@ -208,6 +211,7 @@ FUNCTION SHIAMOVES(theOdds):\
 				ELSE:\
 					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
 					CONTINUE\
+			ENDFUNCTION\
 \
 		#right hook\
 		ELSEIF Dec2 < 41\
@@ -235,6 +239,7 @@ FUNCTION SHIAMOVES(theOdds):\
 				ELSE:\
 					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
 					CONTINUE\
+			ENDFUNCTION\
 	\
 		#uppercut\
 		ELSEIF Dec2 < 51:\
@@ -262,6 +267,7 @@ FUNCTION SHIAMOVES(theOdds):\
 				ELSE:\
 					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
 					CONTINUE\
+			ENDFUNCTION\
 \
 		#low kick\
 		ELSEIF Dec2 < 61:\
@@ -288,6 +294,7 @@ FUNCTION SHIAMOVES(theOdds):\
 						THEN PRINT \'92successful dodge dialogue\'92 				ELSE:\
 					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
 					CONTINUE\
+			ENDFUNCTION\
 \
 		#Headbutt\
 		ELSEIF Dec2 < 71\
@@ -307,6 +314,7 @@ FUNCTION SHIAMOVES(theOdds):\
 				ELSE:\
 					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
 					CONTINUE\
+			ENDFUNCTION\
 \
 		#kick to the balls\
 		ELSEIF Dec2 < 81\
@@ -334,6 +342,7 @@ FUNCTION SHIAMOVES(theOdds):\
 				ELSE:\
 					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
 					CONTINUE\
+			ENDFUNCTION\
 \
 		#shoulder charge\
 		ELSEIF Dec2 < 91\
@@ -341,14 +350,18 @@ FUNCTION SHIAMOVES(theOdds):\
 			WHILE TRUE:\
 				a = INPUT\
 				IF a says block the charge:\
-					#1/10 chance of success\
-					THEN IF RANDINT(1, 120) < theOdds[4]\
+					#1/10 chance of successfully blocking\
+					#You \'93block\'94 shoulder charges with both your arms, so you need arms\
+					THEN IF leftArm.dismembered == True and rightArm.dismembered == True:\
+						THEN PRINT \'93You don\'92t have arms to block with\'94\
+						playerHealth -= 20\
+					ELSEIF RANDINT(1, 120) < theOdds[4]\
 							THEN PRINT \'91unsuccessful block dialogue\'92 \
 							playerHealth -= 15\
 						ELSE:\
 							THEN PRINT \'91successful block dialogue\'92 \
 				ELSEIF a says dodge: \
-					#2/3 chance of failure (1/3 chance of success)\
+					#1/3 chance of failure (2/3 chance of success)\
 					THEN IF RANDINT(1, 120) < theOdds[1]:\
 						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
 						playerHealth -= 15\
@@ -356,10 +369,35 @@ FUNCTION SHIAMOVES(theOdds):\
 						THEN PRINT \'92successful dodge dialogue\'92 				ELSE:\
 					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
 					CONTINUE\
+			ENDFUNCTION\
 \
+		#strangle\
 		ELSE:\
-				#strangle\
-				THEN\
+			THEN PRINT \'93the dialogue about shia lunging forward to strangle you\'94\
+			WHILE TRUE:\
+				a = INPUT\
+				IF a says block the charge:\
+					#1/10 chance of successfully blocking\
+					#You \'93block\'94 shoulder charges with both your arms, so you need arms\
+					THEN IF leftArm.dismembered == True and rightArm.dismembered == True:\
+						THEN PRINT \'93You don\'92t have arms to block with\'94\
+						playerHealth -= 20\
+					ELSEIF RANDINT(1, 120) < theOdds[4]\
+							THEN PRINT \'91unsuccessful block dialogue\'92 \
+							playerHealth -= 15\
+						ELSE:\
+							THEN PRINT \'91successful block dialogue\'92 \
+				ELSEIF a says dodge: \
+					#2/3 chance of failure (1/3 chance of success)\
+					THEN IF RANDINT(1, 120) < theOdds[6]:\
+						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
+						playerHealth -= 15\
+					ELSE:\
+						THEN PRINT \'92successful dodge dialogue\'92 				ELSE:\
+					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
+					CONTINUE\
+			ENDFUNCTION\
+\
 	\
 	#attempts to eat the player\
 	ELSE:\
