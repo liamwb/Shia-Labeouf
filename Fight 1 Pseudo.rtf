@@ -13,12 +13,12 @@ shiaHealth = 150\
 playerHealth = 100\
 \
 # The adjusted odds of things happening depending on how the player enters the cottage\
-#in order, the odds go: 1/2, 1/3, 1/4, 1/6, 1/10, 1/12, 2/3\
+#in order, the odds go: 1/2, 1/3, 1/4, 1/6, 1/10, 1/12, 2/3, 9/10\
 #	the adjusted lists follow (Using fractions of base 120 to generate probabilities)\
-snunkIn 	= [60, 40, 30, 20, 12, 10, 80,]\
-walkedIn 	= [90, 60, 45, 30, 18, 15, 120,]\
-ranIn 	= [75, 50, 38, 25, 15, 13, 100]\
-gotSeen 	= [105, 70, 53, 35, 21, 18, 140]\
+snunkIn 	= [60, 40, 30, 20, 12, 10, 80, 108]\
+walkedIn 	= [90, 60, 45, 30, 18, 15, 120, 156]\
+ranIn 	= [75, 50, 38, 25, 15, 13, 100, 135]\
+gotSeen 	= [105, 70, 53, 35, 21, 18, 140, 189]\
 \
 theOdds = snuckIn\
 \
@@ -100,15 +100,22 @@ WHILE player has not entered the fight scene proper:\
 	\
 #\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
 \
-CLASS Bodyparts(name, dismembered, damageLoss,):\
-	leftHand = \'91left hand\'92, False, -5\
-	rightHand = \'91right hand\'92, False, -5\
-	leftArm = \'91left arm\'92, False, -20\
-	rightArm = \'91right arm\'92, False, -20\
-	leftFoot = \'91left foot\'92, False, -5\
-	rightFoot = \'91right foot\'92, False, -5\
-	leftLeg = \'91left leg\'92, False, -25\
-	rightLeg = \'91right leg\'92, False, -25\
+CLASS Bodypart(name, dismembered, damageLoss,):\
+	leftHand = \'91left hand\'92, False, -10\
+	rightHand = \'91right hand\'92, False, -10\
+	leftArm = \'91left arm\'92, False, -22\
+	rightArm = \'91right arm\'92, False, -22\
+	leftFoot = \'91left foot\'92, False, -10\
+	rightFoot = \'91right foot\'92, False, -10\
+	leftLeg = \'91left leg\'92, False, -28\
+	rightLeg = \'91right leg\'92, False, -28\
+\
+	FUNCTION Dismember(name):\
+		IF name.dismembered == True:\
+			THEN RAISE \'93DoubleDismember Error\'94\
+		ELSE:\
+			THEN name.dismembered = True\
+		\
 \
 bodypartsList = [leftHand, rightHand, leftArm, rightArm, leftFoot, rightFoot, leftLeg, rightLeg,]\
 \
@@ -401,7 +408,16 @@ FUNCTION SHIAMOVES(theOdds):\
 	\
 	#attempts to eat the player\
 	ELSE:\
-		THEN attempts to eat the player		\
+		THEN the target is RANDOM.CHOICE of Bodypart where dismembered == False:\
+		#90% chance of shia successfully eating a part of you\
+		IF RANDINT(1, 120) > theOdds[7]:\
+			PRINT \'91Your thing got eaten off\'92\
+			THEN target.dismembered = True\
+			playerHealth -= target.damageLoss\
+		ELSE:\
+			THEN PRINT \'93Your thing didn\'92t get eaten off\'94\
+		\
+		ENDFUNCTION\
 \
 	\
 \
@@ -413,18 +429,30 @@ IF ExtraTurn == True:\
 \
 WHILE the fight is ongoing:\
 	SHIAMOVES\
+	attackingBodypart = rightArm\
 	a = INPUT\
 	IF playerHealth == 0:\
 		THEN DEATH\
 	ELSEIF shiaHealth == 0:\
 		THEN ENDWHILE\
 \
-	ELSEIF a says attack his head:\
-		THEN;\
-		IF RANDINT > theOdds[3]:\
-			THEN shiaHealth -= 50\
-		ELSE:\
-			THEN CONTINUE\
+	ELSEIF a says punch his head:\
+		THEN WHILE TRUE:\
+			IF rightArm.dismembered == True:\
+				attackingBodypart == leftArm\
+			ELSEIF rightArm.dismembered == True and leftArm.dismembered == True:\
+				THEN PRINT \'93Something along the lines of you just realised too late that you don\'92t have any hands\'94\
+				ENDWHILE\
+\
+			IF RANDINT > theOdds[3]:\
+				PRINT \'93Your \'94 +  attackingBodypart + \'93 snakes out to catch Shia in the head\'94\
+				THEN shiaHealth -= 40\
+			ELSE:\
+				THEN ENDWHILE\
+			ENDWHILE\
+\
+\
+	\
 	\
 \
 \
