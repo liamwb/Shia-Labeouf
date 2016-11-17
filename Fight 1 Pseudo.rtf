@@ -100,7 +100,7 @@ WHILE player has not entered the fight scene proper:\
 	\
 #\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
 \
-CLASS Bodypart(name, dismembered, damageLoss,):\
+CLASS Bodypart(self, name, dismembered, damageLoss,):\
 	leftHand = \'91left hand\'92, False, -10\
 	rightHand = \'91right hand\'92, False, -10\
 	leftArm = \'91left arm\'92, False, -22\
@@ -110,12 +110,16 @@ CLASS Bodypart(name, dismembered, damageLoss,):\
 	leftLeg = \'91left leg\'92, False, -28\
 	rightLeg = \'91right leg\'92, False, -28\
 \
-	FUNCTION Dismember(name):\
-		IF name.dismembered == True:\
+	FUNCTION dismember(self, name, dismembered):\
+		IF self.dismembered == True:\
 			THEN RAISE \'93DoubleDismember Error\'94\
 		ELSE:\
-			THEN name.dismembered = True\
-		\
+			THEN IF \'91arm\'92 in self.name:\
+				THEN dismember(self.name.split[0] + \'91Hand\'92, self.name.split[0] + \'91 hand\'92, self.name.split[0] + \'91Hand\'92.dismembered)\
+			\
+			ELSEIF \'91leg\'92 in self.name:\
+				THEN dismember(self.name.split[0] + \'91Foot\'92, self.name.split[0] + \'91 foot\'92, self.name.split[0] + \'91Foot\'92.dismembered)\
+\
 \
 bodypartsList = [leftHand, rightHand, leftArm, rightArm, leftFoot, rightFoot, leftLeg, rightLeg,]\
 \
@@ -426,6 +430,26 @@ IF ExtraTurn == True:\
 	LIIIIAAAAAAM YOU NEEED TO WORK OUT HOW TO DO THE STUUUUUUF!!!!\
 \
 \
+#Attacking body part is something like \'91hand\'92 or \'91leg\'92\
+#number is the index for the odds of the number that the failure number must be lower than\
+FUNCTION playerMoves(attackingBodypart, target, number):\
+	actualBit = \'91\'92\
+	WHILE TRUE:\
+		IF right + \'91attackingBodypart\'92 .dismembered == True:\
+			actualBit == left + attackingBodypart\
+		ELSEIF leftLeg.dismembered == True:\
+			attackingBodypart == rightLeg\'94\
+		ELSEIF rightArm.dismembered == True and leftArm.dismembered == True:\
+			THEN PRINT \'93Something along the lines of you just realised too late that you don\'92t have any\'94 + attackingBodypart\
+			ENDWHILE\
+\
+		IF RANDINT > theOdds[number]:\
+			PRINT \'93Your \'94 +  attackingBodypart + \'93 snakes out to catch Shia in the head\'94			THEN shiaHealth -= 40\
+		ELSE:\
+			THEN ENDWHILE\
+\
+\
+\
 \
 WHILE the fight is ongoing:\
 	SHIAMOVES\
@@ -449,7 +473,24 @@ WHILE the fight is ongoing:\
 				THEN shiaHealth -= 40\
 			ELSE:\
 				THEN ENDWHILE\
-			ENDWHILE\
+\
+\
+	ELSEIF a says kick him in the head:\
+		THEN WHILE TRUE:\
+			IF rightLeg.dismembered == True:\
+				attackingBodypart == leftLeg\
+			ELSEIF leftLeg.dismembered == True:\
+				attackingBodypart == rightLeg\'94\
+			ELSEIF rightArm.dismembered == True and leftArm.dismembered == True:\
+				THEN PRINT \'93Something along the lines of you just realised too late that you don\'92t have any legs\'94\
+				ENDWHILE\
+\
+			IF RANDINT > theOdds[2]:\
+				PRINT \'93Your \'94 +  attackingBodypart + \'93 snakes out to catch Shia in the head\'94\
+				THEN shiaHealth -= 40\
+			ELSE:\
+				THEN ENDWHILE\
+\
 \
 \
 	\
