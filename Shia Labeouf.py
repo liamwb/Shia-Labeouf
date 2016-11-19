@@ -69,7 +69,8 @@ playerHealth = 100
 # The adjusted odds of things happening depending on how the player enters the cottage
 #in order, the odds go: 1/2, 1/3, 1/4, 1/6, 1/10, 1/12, 2/3, 9/10
 #	the adjusted lists follow (Using fractions of base 120 to generate probabilities)
-snunkIn = [60, 40, 30, 20, 12, 10, 80, 108]
+
+snuckIn = [60, 40, 30, 20, 12, 10, 80, 108]
 walkedIn = [90, 60, 45, 30, 18, 15, 120, 156]
 ranIn = [75, 50, 38, 25, 15, 13, 100, 135]
 gotSeen = [105, 70, 53, 35, 21, 18, 140, 189]
@@ -90,21 +91,36 @@ class bodypart:
             print('You have managed to dismember the same article twice')
         else:
             self.dismembered = True
+            bodypartList.remove(self.name)
             if 'arm' in self.name:
                 #dismebering the hand attached to the arm in question
                 (self.name.split[0] + 'Hand').dismembered = True
+                bodypartList.remove((self.name.split[0] + 'Hand').name)
             elif 'leg' in self.name:
                 #dismebering the foot attached to the leg in question
                 (self.name.split[0] + 'Leg').dismembered = True
-
+                bodypartList.remove((self.name.split[0] + 'Hand').name)
+                
 leftHand = bodypart('left hand', False, -10)
+
 rightHand = bodypart('right hand', False, -10)
+
 leftArm = bodypart('left arm', False, -22)
+
 rightArm = bodypart('right arm', False, -22)
+
 leftFoot = bodypart('left foot', False, -10)
+
 rightFoot = bodypart('right foot', False, -10)
+
 leftLeg = bodypart('left leg', False, -28)
+
 rightLeg = bodypart('right leg', False, -28)
+
+bodypartList = ['left hand', 'right hand', 'left arm', 'right arm', 'left foot', 'right foot','left leg', 'right leg']
+
+
+
 
 
 a = input().lower()

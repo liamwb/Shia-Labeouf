@@ -118,7 +118,7 @@ CLASS Bodypart(self, name, dismembered, damageLoss,):\
 				THEN dismember that hand\
 			\
 			ELSEIF \'91leg\'92 in self.name:\
-				THEN dismember that hand\
+				THEN dismember that leg\
 			\
 			ELSE:\
 				THEN self.dismember = True\
@@ -138,7 +138,7 @@ FUNCTION SHIAMOVES(theOdds):\
 \
 	#Skipped turn and health regen\
 	IF Dec1 < 26:\
-		THEN shiaHealth -= RANDINT(10, 20)\
+		THEN shiaHealth += RANDINT(10, 20)\
 		END FUNCTION\
 	\
 	#Conventional Attack\
