@@ -112,13 +112,16 @@ CLASS Bodypart(self, name, dismembered, damageLoss,):\
 \
 	FUNCTION dismember(self, name, dismembered):\
 		IF self.dismembered == True:\
-			THEN RAISE \'93DoubleDismember Error\'94\
+			THEN PRINT \'93You have managed to dismember the same article twice\'94\
 		ELSE:\
 			THEN IF \'91arm\'92 in self.name:\
-				THEN dismember(self.name.split[0] + \'91Hand\'92, self.name.split[0] + \'91 hand\'92, self.name.split[0] + \'91Hand\'92.dismembered)\
+				THEN dismember that hand\
 			\
 			ELSEIF \'91leg\'92 in self.name:\
-				THEN dismember(self.name.split[0] + \'91Foot\'92, self.name.split[0] + \'91 foot\'92, self.name.split[0] + \'91Foot\'92.dismembered)\
+				THEN dismember that hand\
+			\
+			ELSE:\
+				THEN self.dismember = True\
 \
 \
 bodypartsList = [leftHand, rightHand, leftArm, rightArm, leftFoot, rightFoot, leftLeg, rightLeg,]\

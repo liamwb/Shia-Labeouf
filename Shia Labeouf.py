@@ -85,17 +85,26 @@ class bodypart:
             self.damageLoss = damageLoss
 
 
-    def remove(self, dismembered, damageLoss):
-        self.dismembered = True
+    def dismember(self, dismembered, damageLoss):
+        if self.dismembered == True:
+            print('You have managed to dismember the same article twice')
+        else:
+            self.dismembered = True
+            if 'arm' in self.name:
+                #dismebering the hand attached to the arm in question
+                (self.name.split[0] + 'Hand').dismembered = True
+            elif 'leg' in self.name:
+                #dismebering the foot attached to the leg in question
+                (self.name.split[0] + 'Leg').dismembered = True
 
-leftHand = 'left hand', False, -10
-rightHand = 'right hand', False, -10
-leftArm = 'left arm', False, -22
-rightArm = 'right arm', False, -22
-leftFoot = 'left foot', False, -10
-rightFoot = 'right foot', False, -10
-leftLeg = 'left leg', False, -28
-rightLeg = 'right leg', False, -28
+leftHand = bodypart('left hand', False, -10)
+rightHand = bodypart('right hand', False, -10)
+leftArm = bodypart('left arm', False, -22)
+rightArm = bodypart('right arm', False, -22)
+leftFoot = bodypart('left foot', False, -10)
+rightFoot = bodypart('right foot', False, -10)
+leftLeg = bodypart('left leg', False, -28)
+rightLeg = bodypart('right leg', False, -28)
 
 
 a = input().lower()
