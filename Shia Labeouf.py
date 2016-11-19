@@ -1,4 +1,5 @@
 import sys
+import random
 
 print('Welcome to the Shia Lebeouf experience. \nFor help type \'help\', or to begin type \'go!\'')
 
@@ -53,13 +54,48 @@ def help_():
 #well actually it just checks all the words in a string to see if there is a matching word in a list
     #so i don't know why i called it check_direction, it should really have been check_match or something
 def check_direction(list, string):
-               yep = False
                string = string.split(' ')
                for item in string:
                    for i in list:
                        if item == i:
                            return True
                return False
+
+#-------
+#health values for fight one
+shiaHealth = 150
+playerHealth = 100
+
+# The adjusted odds of things happening depending on how the player enters the cottage
+#in order, the odds go: 1/2, 1/3, 1/4, 1/6, 1/10, 1/12, 2/3, 9/10
+#	the adjusted lists follow (Using fractions of base 120 to generate probabilities)
+snunkIn = [60, 40, 30, 20, 12, 10, 80, 108]
+walkedIn = [90, 60, 45, 30, 18, 15, 120, 156]
+ranIn = [75, 50, 38, 25, 15, 13, 100, 135]
+gotSeen = [105, 70, 53, 35, 21, 18, 140, 189]
+
+#just in case something goes wrong
+theOdds = snuckIn
+
+#body parts... you know, in case you lose some of them
+class bodypart:
+    def __init__(self, name, dismembered, damageLoss):
+            self.name = name
+            self.dismembered = dismembered
+            self.damageLoss = damageLoss
+
+
+    def remove(self, dismembered, damageLoss):
+        self.dismembered = True
+
+leftHand = 'left hand', False, -10
+rightHand = 'right hand', False, -10
+leftArm = 'left arm', False, -22
+rightArm = 'right arm', False, -22
+leftFoot = 'left foot', False, -10
+rightFoot = 'right foot', False, -10
+leftLeg = 'left leg', False, -28
+rightLeg = 'right leg', False, -28
 
 
 a = input().lower()

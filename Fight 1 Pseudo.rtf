@@ -415,44 +415,81 @@ FUNCTION SHIAMOVES(theOdds):\
 		THEN the target is RANDOM.CHOICE of Bodypart where dismembered == False:\
 		#90% chance of shia successfully eating a part of you\
 		IF RANDINT(1, 120) > theOdds[7]:\
-			PRINT \'91Your thing got eaten off\'92\
+			PRINT \'91Your\'92 + Bodypart + \'91got eaten off\'92\
 			THEN target.dismembered = True\
 			playerHealth -= target.damageLoss\
 		ELSE:\
-			THEN PRINT \'93Your thing didn\'92t get eaten off\'94\
+			THEN PRINT \'93Your\'92 + Bodypart + \'91didn\'92t get eaten off\'94\
 		\
 		ENDFUNCTION\
 \
 	\
 \
-IF ExtraTurn == True:\
-	THEN PRINT \'92Shia sprawls across the floor, caught unaware for a moment. This is your chance to strike\'92\
-	LIIIIAAAAAAM YOU NEEED TO WORK OUT HOW TO DO THE STUUUUUUF!!!!\
-\
 \
 #Attacking body part is something like \'91hand\'92 or \'91leg\'92\
-#number is the index for the odds of the number that the failure number must be lower than\
-FUNCTION playerMoves(attackingBodypart, target, number):\
+#Function edits shia\'92s health, and then returns a boolean value to be used in the while loop below to decide which dialogue to play\
+FUNCTION playerMoves(attackingBodypart, target):\
 	actualBit = \'91\'92\
-	WHILE TRUE:\
-		IF right + \'91attackingBodypart\'92 .dismembered == True:\
-			actualBit == left + attackingBodypart\
-		ELSEIF leftLeg.dismembered == True:\
-			attackingBodypart == rightLeg\'94\
-		ELSEIF rightArm.dismembered == True and leftArm.dismembered == True:\
-			THEN PRINT \'93Something along the lines of you just realised too late that you don\'92t have any\'94 + attackingBodypart\
-			ENDWHILE\
+	Omod = 0\
+	Dmod\
+	#Determining whether the right or left leg/arm is being used, and if the player has neither, ending the function.\
+	IF right + \'91attackingBodypart\'92 .dismembered == True:\
+		actualBit == left + attackingBodypart\
+	ELSEIF leftLeg.dismembered == True:\
+		actualBit == right + attackingBodypart\
+	ELSEIF right + attackingbodypart.dismembered == True and leftArm.dismembered == True:\
+		RETURN NULL\
+		ENDFUNCTION\
 \
-		IF RANDINT > theOdds[number]:\
-			PRINT \'93Your \'94 +  attackingBodypart + \'93 snakes out to catch Shia in the head\'94			THEN shiaHealth -= 40\
-		ELSE:\
-			THEN ENDWHILE\
+\
+	#Determining if an arm or a leg is being used arms have higher odds but do less damage\
+	IF \'91arm\'92 or \'91hand\'92 in attackingBodypart:\
+		THEN Omod +=10\
+		Dmod -= 10\
+\
+	ELSEIF \'91leg\'92 or \'91foot\'92 in attackingBodypart:\
+		THEN Omod -=10\
+		Dmod += 10\
+\
+\
+	#Attacking the body part in Question\
+	#Dictionary of the probabilities of successfully attacking different body parts (out of 120), and the damage shia takes\
+	\
+	Probabilities: \{\
+	head: [70, 40]\
+	nose: [80, 30]\
+	eye: [80, 45]\
+	temple: [70, 45]\
+	neck: [80, 35]\
+	shoulder: [100, 20] \
+	sternum: [90, 25]\
+	stomach: [85, 30]\
+	groin: [68, 45]\
+	thigh: [100, 15]\
+	knee: [90, 28]\
+	shin: [100, 25]\
+	ankle: [95, 22]\
+	\}\
+		\
+	IF RANDINT(1, 120) < (Probabilities[target][0] + Omod):\
+		THEN shiaHealth -= (Probabilities[target][1] + Dmod)\
+		RETURN TRUE\
+		ENDFUNCTION\
+	ELSE:\
+		RETURN FALSE\
+		ENDFUNCTION\
 \
 \
 \
 \
 WHILE the fight is ongoing:\
-	SHIAMOVES\
+	#If the player gained an extra turn then the extra turn value is set to false and the player gets a move\
+	IF extraTurn == False:\
+		THEN SHIAMOVES\
+	ELSEIF extraTurn == True:\
+		THEN extraTurn = False\
+		PRINT something like shia is stunned, now is your chance!\
+	boolean = NULL\
 	attackingBodypart = rightArm\
 	a = INPUT\
 	IF playerHealth == 0:\
@@ -460,41 +497,311 @@ WHILE the fight is ongoing:\
 	ELSEIF shiaHealth == 0:\
 		THEN ENDWHILE\
 \
-	ELSEIF a says punch his head:\
-		THEN WHILE TRUE:\
-			IF rightArm.dismembered == True:\
-				attackingBodypart == leftArm\
-			ELSEIF rightArm.dismembered == True and leftArm.dismembered == True:\
-				THEN PRINT \'93Something along the lines of you just realised too late that you don\'92t have any hands\'94\
-				ENDWHILE\
+	IF a says punch shia in the head: \
+		THEN boolean = playerMoves(hand, head)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
 \
-			IF RANDINT > theOdds[3]:\
-				PRINT \'93Your \'94 +  attackingBodypart + \'93 snakes out to catch Shia in the head\'94\
-				THEN shiaHealth -= 40\
-			ELSE:\
-				THEN ENDWHILE\
+	ELSEIF a says kick shia in the head:\
+		THEN boolean = playerMoves(foot, head)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
 \
+	ELSEIF a says punch shia in the nose: \
+		THEN boolean = playerMoves(hand, nose)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
 \
-	ELSEIF a says kick him in the head:\
-		THEN WHILE TRUE:\
-			IF rightLeg.dismembered == True:\
-				attackingBodypart == leftLeg\
-			ELSEIF leftLeg.dismembered == True:\
-				attackingBodypart == rightLeg\'94\
-			ELSEIF rightArm.dismembered == True and leftArm.dismembered == True:\
-				THEN PRINT \'93Something along the lines of you just realised too late that you don\'92t have any legs\'94\
-				ENDWHILE\
+	ELSEIF a says kick shia in the nose:\
+		THEN boolean = playerMoves(foot, nose)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
 \
-			IF RANDINT > theOdds[2]:\
-				PRINT \'93Your \'94 +  attackingBodypart + \'93 snakes out to catch Shia in the head\'94\
-				THEN shiaHealth -= 40\
-			ELSE:\
-				THEN ENDWHILE\
+	ELSEIF a says punch shia in the eye:\
+		THEN boolean = playerMoves(hand, eye)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
 \
+	ELSEIF a says kick shia in the eye:\
+		THEN boolean = playerMoves(foot, eye)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
+\
+	ELSEIF a says punch shia in the temple:\
+		THEN boolean = playerMoves(hand, temple)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
+\
+	ELSEIF a says kick shia in the temple:\
+		THEN boolean = playerMoves(foot, temple)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
+\
+	ELSEIF a says punch shia in the neck:\
+		THEN boolean = playerMoves(hand, neck)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
+\
+	ELSEIF a says kick shia in the neck:\
+		THEN boolean = playerMoves(foot, neck)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
+\
+	ELSEIF a says punch shia in the shoulder:\
+\
+	ELSEIF a says kick shia in the shoulder:\
+ 		THEN boolean = playerMoves(foot, shoulder)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
+\
+	ELSEIF a says punch shia in the sternum:\
+		THEN boolean = playerMoves(hand, sternum)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
+\
+	ELSEIF a says kick shia in the sternum:\
+		THEN boolean = playerMoves(foot, sternum)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
+ \
+	ELSEIF a says punch shia in the stomach:\
+		THEN boolean = playerMoves(hand, stomach)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
+\
+	ELSEIF a says kick shia in the stomach:\
+		THEN boolean = playerMoves(foot, stomach)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
+ \
+	ELSEIF a says punch shia in the groin:\
+		THEN boolean = playerMoves(hand, groin)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
+\
+	ELSEIF a says kick shia in the groin:\
+		THEN boolean = playerMoves(foot, groin)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE  \
+\
+	ELSEIF a says punch shia in the thigh:\
+		THEN boolean = playerMoves(hand, thigh)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
+\
+	ELSEIF a says kick shia in the thigh:\
+		THEN boolean = playerMoves(foot, thigh)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
+ \
+	ELSEIF a says punch shia in the knee:\
+		THEN boolean = playerMoves(hand, knee)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
+\
+	ELSEIF a says kick shia in the knee:\
+		THEN boolean = playerMoves(foot, knee)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
+ \
+	ELSEIF a says punch shia in the shin:\
+		THEN boolean = playerMoves(hand, shin)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
+\
+	ELSEIF a says kick shia in the shin:\
+		THEN boolean = playerMoves(foot, shin)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
+ \
+	ELSEIF a says punch shia in the ankle:\
+		THEN boolean = playerMoves(hand, ankle)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any hands\
+			CONTINUE \
+\
+	ELSEIF a says kick shia in the ankle:\
+		THEN boolean = playerMoves(foot, ankle)\
+		IF boolean == True:\
+			THEN PRINT successful attack dialogue \
+			CONTINUE\
+		ELSEIF boolean == False:\
+			THEN PRINT unsuccessful attack dialogue\
+			CONTINUE\
+		ELSE:\
+			THEN PRINT something along the lines of you don\'92t have any feet\
+			CONTINUE \
 \
 \
 	\
-	\
+PRINT some victory dialogue\
 \
 \
 \
