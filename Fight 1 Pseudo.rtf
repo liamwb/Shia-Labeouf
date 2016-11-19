@@ -1,820 +1,817 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww20280\viewh12600\viewkind0
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-
-\f0\fs24 \cf0 #Pseudo code for the first fight with Shia\
-#Using the random module from python to generate random numbers, in the pseudo code \'91RANDINT\'92 can represent the generation of a random number in a range.\
-#RANDOMCHOICE  selects a random item from a list\
-\
-#Health of things\
-shiaHealth = 150\
-playerHealth = 100\
-\
-# The adjusted odds of things happening depending on how the player enters the cottage\
-#in order, the odds go: 1/2, 1/3, 1/4, 1/6, 1/10, 1/12, 2/3, 9/10\
-#	the adjusted lists follow (Using fractions of base 120 to generate probabilities)\
-snunkIn 	= [60, 40, 30, 20, 12, 10, 80, 108]\
-walkedIn 	= [90, 60, 45, 30, 18, 15, 120, 156]\
-ranIn 	= [75, 50, 38, 25, 15, 13, 100, 135]\
-gotSeen 	= [105, 70, 53, 35, 21, 18, 140, 189]\
-\
-theOdds = snuckIn\
-\
-\
-MODULE \'91COTTAGE\'92:\
-\
-PRINT \'91Gnawing off your leg (quiet, quiet)\'92\
-PRINT \'91What to do now?\'92\
-\
-WHILE player has not entered the cottage successfully:\
-	a = INPUT\
-	IF a == \'91look\'92:\
-		THEN PRINT \'91the forest is dark, you can make out a cottage to the south\'85 etc\'92\
-	ElSEIF  a  says sneak or walk south:\
-		THEN they advance to the doorstep \
-		ENDWHILE\
-	ELSEIF a says run or walk somewhere other than south:\
-		THEN you end up in the same place lmao\
-	ELSEIF a == \'91help\'92:\
-		THEN PRINT the help stuff\
-	ELSE:\
-		THEN PRINT \'91I don\'92t understand\'92\
-\
-#The player should either make it onto the doorstep, or die\
-PRINT \'91limping toward the cottage (quiet, quiet), Now you\'92re on the doorstep (quiet, quiet), Sitting inside, Shia Labeouf. Sharpening an axe (Shia Labeouf)\'85.\'92\
-\
-#\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
-\
-#Each turn the player waits on the doorstep, shia gets closer to finishing sharpening his axe, and noticing the player.\
-TurnsWaiting = 0\
-\
-ExtraTurn = False\
-\
-WHILE player has not entered the fight scene proper:\
-	a = INPUT\
-	IF TurnsWaiting > 3:\
-		THEN shia spots you and throws his axe into your head\
-		DEATH\
-	ELSEIF a == \'91look\'92:\
-		THEN PRINT \'91Shia is sitting in a high backed arm chair, with his back to the doorway, and to you.;\
-					You can hear the scraping of a whetstone against Shia\'92s axe,;\
-					Which seems to be the object of the entirety of Shia\'92s attention, for now\'85\'92;\
-					TurnsWaiting += 1;\
-	ELSEIF a says run at shia:\
-		THEN theOdds = ranIn\
-		ENDWHILE\
-	ELSEIF a says walk to shia:\
-		THEN theOdds = walkedIn\
-		ENDWHILE\
-	ELSEIF a says walk inside:\
-		THEN theOdds = gotSeen\
-		ENDWHILE\
-	ELSEIF a says sneak to shia:\
-		THEN theOdds = snuckIn\
-		TurnsWaiting += 1\
-		WHILE the player is undetected:\
-			IF TurnsWaiting > 3\
-				THEN shia spots you and throws his axe into your head\
-				DEATH\
-			ELSEIF a says strangle shia:\
-				THEN shiaHealth -= 60\
-				ENDWHILE\
-			ELSEIF a says hit shia:\
-				THEN;\
-				IF the back of shia\'92s head:\
-				ELSEIF shia\'92s temple:\
-					THEN shiaHealth -=50\
-					ENDWHILE\
-				ELSEIF shia\'92s neck:\
-					THEN shiaHealth -=30\
-					ENDWHILE\
-				ELSEIF tip the chair over:\
-					THEN shiaHealth -=10\
-					ExtraTurn = True\
-					ENDWHILE\
-		ENDWHILE\
-\
-	\
-	\
-#\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
-\
-CLASS Bodypart(self, name, dismembered, damageLoss,):\
-	leftHand = \'91left hand\'92, False, -10\
-	rightHand = \'91right hand\'92, False, -10\
-	leftArm = \'91left arm\'92, False, -22\
-	rightArm = \'91right arm\'92, False, -22\
-	leftFoot = \'91left foot\'92, False, -10\
-	rightFoot = \'91right foot\'92, False, -10\
-	leftLeg = \'91left leg\'92, False, -28\
-	rightLeg = \'91right leg\'92, False, -28\
-\
-	FUNCTION dismember(self, name, dismembered):\
-		IF self.dismembered == True:\
-			THEN PRINT \'93You have managed to dismember the same article twice\'94\
-		ELSE:\
-			THEN IF \'91arm\'92 in self.name:\
-				THEN dismember that hand\
-			\
-			ELSEIF \'91leg\'92 in self.name:\
-				THEN dismember that leg\
-			\
-			ELSE:\
-				THEN self.dismember = True\
-\
-\
-bodypartsList = [leftHand, rightHand, leftArm, rightArm, leftFoot, rightFoot, leftLeg, rightLeg,]\
-\
-\
-#Function that determines what Shia does with his life and part of how the player reacts\
-#25% of the time Shia skips his turn and regenerates 10-20 health\
-#50% of the time Shia attacks the player conventionally\
-#25% of the time Shia tries to eat a bit of the player\
-\
-FUNCTION SHIAMOVES(theOdds):\
-	Dec1 = RANDINT(1, 100)\
-	Dec2 = RANDINT(1, 100)\
-\
-	#Skipped turn and health regen\
-	IF Dec1 < 26:\
-		THEN shiaHealth += RANDINT(10, 20)\
-		END FUNCTION\
-	\
-	#Conventional Attack\
-	ELSEIF 25 < Dec1 < 76:\
-\
-		#Straight right\
-		THEN IF Dec2 < 11:\
-			THEN PRINT \'93the dialogue about shia lining up a straight left\'94\
-			WHILE TRUE:\
-				a = INPUT\
-				IF a says block the punch:\
-					THEN IF leftHand.dismembered == True:						THEN PRINT \'93the dialogue about you not having a hand\'94\
-						playerHealth -= 20\
-					ELSE:\
-						#50/50 chance of a successful block\
-						IF RANDINT(1, 120) > theOdds[0]\
-							THEN PRINT \'91successful block dialogue\'92 \
-						ELSE:\
-							THEN PRINT \'91unsuccessful block dialogue\'92 \
-							playerHealth -= 10\
-				ELSEIF a says dodge: \
-					#1/3 chance of success (2/3 chance of failure)\
-					THEN IF RANDINT(1, 120) < theOdds[6]:\
-						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
-						playerHealth -= 10\
-					ELSE:\
-						THEN PRINT \'92successful dodge dialogue\'92 \
-				ELSE:\
-					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
-					CONTINUE\
-			ENDFUNCTION\
-\
-		#Straight left\
-		ELSEIF Dec2 < 21:\
-			THEN PRINT \'93the dialogue about shia lining up a straight left\'94\
-			WHILE TRUE:\
-				a = INPUT\
-				IF a says block the punch:\
-					THEN IF rightHand.dismembered == True:\
-						THEN PRINT \'93the dialogue about you not having a hand\'94\
-						playerHealth -= 20\
-					ELSE:\
-						#50/50 chance of a successful block\
-						IF RANDINT(1, 120) > theOdds[0]\
-							THEN PRINT \'91successful block dialogue\'92 \
-						ELSE:\
-							THEN PRINT \'91unsuccessful block dialogue\'92 \
-							playerHealth -= 10\
-				ELSEIF a says dodge: \
-					#2/3 chance of failure\
-					THEN IF RANDINT(1, 120) < theOdds[6]:\
-						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
-						playerHealth -= 10\
-					ELSE:\
-						THEN PRINT  \'93successful dodge dialogue\'94\
-				ELSE:\
-					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
-					CONTINUE\
-			ENDFUNCTION\
-\
-		#left hook\
-		ELSEIF Dec2 < 31\
-			THEN PRINT \'93the dialogue about shia lining up a left hook\'94\
-			WHILE TRUE:\
-				a = INPUT\
-				IF a says block the punch:\
-					THEN IF rightHand.dismembered == True:\
-						THEN PRINT \'93the dialogue about you not having a hand\'94\
-						playerHealth -= 25\
-					ELSE:\
-						#2/3 chance of a successful block\
-						IF RANDINT(1, 120) < theOdds[6]\
-							THEN PRINT \'91unsuccessful block dialogue\'92 \
-							playerHealth -= 15\
-						ELSE:\
-							THEN PRINT \'91successful block dialogue\'92 \
-				ELSEIF a says dodge: \
-					#2/3 chance of a successful block\
-					THEN IF RANDINT(1, 120) < theOdds[6]:\
-						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
-						playerHealth -= 15\
-					ELSE:\
-						THEN PRINT \'92successful dodge dialogue\'92 \
-				ELSE:\
-					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
-					CONTINUE\
-			ENDFUNCTION\
-\
-		#right hook\
-		ELSEIF Dec2 < 41\
-			THEN PRINT \'93the dialogue about shia lining up a right hook\'94\
-			WHILE TRUE:\
-				a = INPUT\
-				IF a says block the punch:\
-					THEN IF leftHand.dismembered == True:\
-						THEN PRINT \'93the dialogue about you not having a hand\'94\
-						playerHealth -= 25\
-					ELSE:\
-						#2/3 chance of a successful block\
-						IF RANDINT(1, 120) < theOdds[6]\
-							THEN PRINT \'91unsuccessful block dialogue\'92 \
-							playerHealth -= 15\
-						ELSE:\
-							THEN PRINT \'91successful block dialogue\'92 \
-				ELSEIF a says dodge: \
-					#2/3 chance of a successful block\
-					THEN IF RANDINT(1, 120) < theOdds[6]:\
-						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
-						playerHealth -= 15\
-					ELSE:\
-						THEN PRINT \'92successful dodge dialogue\'92 \
-				ELSE:\
-					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
-					CONTINUE\
-			ENDFUNCTION\
-	\
-		#uppercut\
-		ELSEIF Dec2 < 51:\
-			THEN PRINT \'93the dialogue about shia lining up an uppercut\'94\
-			WHILE TRUE\
-				a = INPUT\
-				IF a says block the punch:\
-					THEN IF leftHand.dismembered == True or rightHand.dismembered == True:\
-						THEN PRINT \'93the dialogue about you not having any hands\'94\
-						playerHealth -= 30\
-					ELSE:\
-						#1/6 chance of a unsuccessful block (5/6 chance of an successful block)\
-						IF RANDINT(1, 120) < theOdds[3]\
-							THEN PRINT \'91unsuccessful block dialogue\'92 \
-							playerHealth -= 25\
-						ELSE:\
-							THEN PRINT \'91successful block dialogue\'92 \
-				#1/4 chance of failure to dodge an uppercut\
-				ELSEIF a says dodge the punch:\
-					THEN IF RANDINT(1, 120) < theOdds[2]:\
-						THEN PRINT \'93The dialogue about failing to dodge the uppercut\'94\
-						playerHealth -= 25\
-					ELSE:\
-						THEN PRINT \'93successful dodge dialogue\'94\
-				ELSE:\
-					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
-					CONTINUE\
-			ENDFUNCTION\
-\
-		#low kick\
-		ELSEIF Dec2 < 61:\
-			THEN PRINT \'93the dialogue about shia lining up a low kick\'94\
-			WHILE TRUE:\
-				a = INPUT\
-				IF a says block the kick:\
-					THEN IF leftLeg.dismembered == True:\
-						THEN PRINT \'93the dialogue about you not having a hand\'94\
-						playerHealth -= 25\
-					ELSE:\
-						#2/3 chance of a successful block (1/3 chance of failure)\
-						IF RANDINT(1, 120) < theOdds[1]\
-							THEN PRINT \'91unsuccessful block dialogue\'92 \
-							playerHealth -= 15\
-						ELSE:\
-							THEN PRINT \'91successful block dialogue\'92 \
-				ELSEIF a says dodge: \
-					#2/3 chance of failure (1/3 chance of success)\
-					THEN IF RANDINT(1, 120) < theOdds[1]:\
-						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
-						playerHealth -= 15\
-					ELSE:\
-						THEN PRINT \'92successful dodge dialogue\'92 				ELSE:\
-					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
-					CONTINUE\
-			ENDFUNCTION\
-\
-		#Headbutt\
-		ELSEIF Dec2 < 71\
-			THEN PRINT \'93the dialogue about shia lining up an headbutt\'94\
-			WHILE TRUE\
-				a = INPUT\
-				IF a says block the headbutt:\
-					THEN PRINT \'93You can\'92t really block an headbutt, but as soon as you realise that, your nose is shattered by shia\'92s forhead.\'94\
-					playerHealth -= 10\
-				#1/3 chance of failure to dodge an headbutt\
-				ELSEIF a says dodge the headbutt:\
-					THEN IF RANDINT(1, 120) < theOdds[6]:\
-						THEN PRINT \'93The dialogue about failing to dodge the headbutt\'94\
-						playerHealth -= 5\
-					ELSE:\
-						THEN PRINT \'93successful dodge dialogue\'94\
-				ELSE:\
-					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
-					CONTINUE\
-			ENDFUNCTION\
-\
-		#kick to the balls\
-		ELSEIF Dec2 < 81\
-			THEN PRINT \'93the dialogue about shia lining up a kick to the balls\'94\
-			WHILE TRUE:\
-				a = INPUT\
-				IF a says block the kick:\
-					THEN IF leftHand.dismembered == True and rightHand.dismembered == True:\
-						THEN PRINT \'93the dialogue about you not having any hands\'94\
-						playerHealth -= 35\
-					ELSE:\
-						#1/3 chance of a unsuccessful block\
-						IF RANDINT(1, 120) < theOdds[1]\
-							THEN PRINT \'91unsuccessful block dialogue\'92 \
-							playerHealth -= 30\
-						ELSE:\
-							THEN PRINT \'91successful block dialogue\'92 \
-				ELSEIF a says dodge: \
-					#2/3 chance of failure\
-					THEN IF RANDINT(1, 120) < theOdds[6]:\
-						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
-						playerHealth -= 30\
-					ELSE:\
-						THEN PRINT \'92successful dodge dialogue\'92 \
-				ELSE:\
-					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
-					CONTINUE\
-			ENDFUNCTION\
-\
-		#shoulder charge\
-		ELSEIF Dec2 < 91\
-			THEN PRINT \'93the dialogue about shia lining up a shoulder charge\'94\
-			WHILE TRUE:\
-				a = INPUT\
-				IF a says block the charge:\
-					#1/10 chance of successfully blocking\
-					#You \'93block\'94 shoulder charges with both your arms, so you need arms\
-					THEN IF leftArm.dismembered == True and rightArm.dismembered == True:\
-						THEN PRINT \'93You don\'92t have arms to block with\'94\
-						playerHealth -= 20\
-					ELSEIF RANDINT(1, 120) < theOdds[4]\
-							THEN PRINT \'91unsuccessful block dialogue\'92 \
-							playerHealth -= 15\
-						ELSE:\
-							THEN PRINT \'91successful block dialogue\'92 \
-				ELSEIF a says dodge: \
-					#1/3 chance of failure (2/3 chance of success)\
-					THEN IF RANDINT(1, 120) < theOdds[1]:\
-						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
-						playerHealth -= 15\
-					ELSE:\
-						THEN PRINT \'92successful dodge dialogue\'92 				ELSE:\
-					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
-					CONTINUE\
-			ENDFUNCTION\
-\
-		#strangle\
-		ELSE:\
-			THEN PRINT \'93the dialogue about shia lunging forward to strangle you\'94\
-			WHILE TRUE:\
-				a = INPUT\
-				IF a says block the charge:\
-					#1/10 chance of successfully blocking\
-					#You \'93block\'94 shoulder charges with both your arms, so you need arms\
-					THEN IF leftArm.dismembered == True and rightArm.dismembered == True:\
-						THEN PRINT \'93You don\'92t have arms to block with\'94\
-						playerHealth -= 20\
-					ELSEIF RANDINT(1, 120) < theOdds[4]\
-							THEN PRINT \'91unsuccessful block dialogue\'92 \
-							playerHealth -= 15\
-						ELSE:\
-							THEN PRINT \'91successful block dialogue\'92 \
-				ELSEIF a says dodge: \
-					#2/3 chance of failure (1/3 chance of success)\
-					THEN IF RANDINT(1, 120) < theOdds[6]:\
-						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
-						playerHealth -= 15\
-					ELSE:\
-						THEN PRINT \'92successful dodge dialogue\'92 				ELSE:\
-					THEN PRINT \'93Please input a valid instruction (block or dodge)\'94\
-					CONTINUE\
-			ENDFUNCTION\
-\
-	\
-	#attempts to eat the player\
-	ELSE:\
-		THEN the target is RANDOM.CHOICE of Bodypart where dismembered == False:\
-		#90% chance of shia successfully eating a part of you\
-		IF RANDINT(1, 120) > theOdds[7]:\
-			PRINT \'91Your\'92 + Bodypart + \'91got eaten off\'92\
-			THEN target.dismembered = True\
-			playerHealth -= target.damageLoss\
-		ELSE:\
-			THEN PRINT \'93Your\'92 + Bodypart + \'91didn\'92t get eaten off\'94\
-		\
-		ENDFUNCTION\
-\
-	\
-\
-\
-#Attacking body part is something like \'91hand\'92 or \'91leg\'92\
-#Function edits shia\'92s health, and then returns a boolean value to be used in the while loop below to decide which dialogue to play\
-FUNCTION playerMoves(attackingBodypart, target):\
-	actualBit = \'91\'92\
-	Omod = 0\
-	Dmod\
-	#Determining whether the right or left leg/arm is being used, and if the player has neither, ending the function.\
-	IF right + \'91attackingBodypart\'92 .dismembered == True:\
-		actualBit == left + attackingBodypart\
-	ELSEIF leftLeg.dismembered == True:\
-		actualBit == right + attackingBodypart\
-	ELSEIF right + attackingbodypart.dismembered == True and leftArm.dismembered == True:\
-		RETURN NULL\
-		ENDFUNCTION\
-\
-\
-	#Determining if an arm or a leg is being used arms have higher odds but do less damage\
-	IF \'91arm\'92 or \'91hand\'92 in attackingBodypart:\
-		THEN Omod +=10\
-		Dmod -= 10\
-\
-	ELSEIF \'91leg\'92 or \'91foot\'92 in attackingBodypart:\
-		THEN Omod -=10\
-		Dmod += 10\
-\
-\
-	#Attacking the body part in Question\
-	#Dictionary of the probabilities of successfully attacking different body parts (out of 120), and the damage shia takes\
-	\
-	Probabilities: \{\
-	head: [70, 40]\
-	nose: [80, 30]\
-	eye: [80, 45]\
-	temple: [70, 45]\
-	neck: [80, 35]\
-	shoulder: [100, 20] \
-	sternum: [90, 25]\
-	stomach: [85, 30]\
-	groin: [68, 45]\
-	thigh: [100, 15]\
-	knee: [90, 28]\
-	shin: [100, 25]\
-	ankle: [95, 22]\
-	\}\
-		\
-	IF RANDINT(1, 120) < (Probabilities[target][0] + Omod):\
-		THEN shiaHealth -= (Probabilities[target][1] + Dmod)\
-		RETURN TRUE\
-		ENDFUNCTION\
-	ELSE:\
-		RETURN FALSE\
-		ENDFUNCTION\
-\
-\
-\
-\
-WHILE the fight is ongoing:\
-	#If the player gained an extra turn then the extra turn value is set to false and the player gets a move\
-	IF extraTurn == False:\
-		THEN SHIAMOVES\
-	ELSEIF extraTurn == True:\
-		THEN extraTurn = False\
-		PRINT something like shia is stunned, now is your chance!\
-	boolean = NULL\
-	attackingBodypart = rightArm\
-	a = INPUT\
-	IF playerHealth == 0:\
-		THEN DEATH\
-	ELSEIF shiaHealth == 0:\
-		THEN ENDWHILE\
-\
-	IF a says punch shia in the head: \
-		THEN boolean = playerMoves(hand, head)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the head:\
-		THEN boolean = playerMoves(foot, head)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
-\
-	ELSEIF a says punch shia in the nose: \
-		THEN boolean = playerMoves(hand, nose)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the nose:\
-		THEN boolean = playerMoves(foot, nose)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
-\
-	ELSEIF a says punch shia in the eye:\
-		THEN boolean = playerMoves(hand, eye)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the eye:\
-		THEN boolean = playerMoves(foot, eye)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
-\
-	ELSEIF a says punch shia in the temple:\
-		THEN boolean = playerMoves(hand, temple)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the temple:\
-		THEN boolean = playerMoves(foot, temple)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
-\
-	ELSEIF a says punch shia in the neck:\
-		THEN boolean = playerMoves(hand, neck)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the neck:\
-		THEN boolean = playerMoves(foot, neck)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
-\
-	ELSEIF a says punch shia in the shoulder:\
-\
-	ELSEIF a says kick shia in the shoulder:\
- 		THEN boolean = playerMoves(foot, shoulder)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
-\
-	ELSEIF a says punch shia in the sternum:\
-		THEN boolean = playerMoves(hand, sternum)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the sternum:\
-		THEN boolean = playerMoves(foot, sternum)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
- \
-	ELSEIF a says punch shia in the stomach:\
-		THEN boolean = playerMoves(hand, stomach)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the stomach:\
-		THEN boolean = playerMoves(foot, stomach)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
- \
-	ELSEIF a says punch shia in the groin:\
-		THEN boolean = playerMoves(hand, groin)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the groin:\
-		THEN boolean = playerMoves(foot, groin)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE  \
-\
-	ELSEIF a says punch shia in the thigh:\
-		THEN boolean = playerMoves(hand, thigh)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the thigh:\
-		THEN boolean = playerMoves(foot, thigh)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
- \
-	ELSEIF a says punch shia in the knee:\
-		THEN boolean = playerMoves(hand, knee)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the knee:\
-		THEN boolean = playerMoves(foot, knee)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
- \
-	ELSEIF a says punch shia in the shin:\
-		THEN boolean = playerMoves(hand, shin)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the shin:\
-		THEN boolean = playerMoves(foot, shin)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
- \
-	ELSEIF a says punch shia in the ankle:\
-		THEN boolean = playerMoves(hand, ankle)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any hands\
-			CONTINUE \
-\
-	ELSEIF a says kick shia in the ankle:\
-		THEN boolean = playerMoves(foot, ankle)\
-		IF boolean == True:\
-			THEN PRINT successful attack dialogue \
-			CONTINUE\
-		ELSEIF boolean == False:\
-			THEN PRINT unsuccessful attack dialogue\
-			CONTINUE\
-		ELSE:\
-			THEN PRINT something along the lines of you don\'92t have any feet\
-			CONTINUE \
-\
-\
-	\
-PRINT some victory dialogue\
-\
-\
-\
-\
-\
-\
-\
-	\
-END MODULE COTTAGE\
-\
-	\
-\
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fcharset0 Helvetica;}}
+{\*\generator Riched20 10.0.14393}\viewkind4\uc1 
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\f0\fs24\lang9 #Pseudo code for the first fight with Shia\par
+#Using the random module from python to generate random numbers, in the pseudo code \lquote RANDINT\rquote  can represent the generation of a random number in a range.\par
+#RANDOMCHOICE  selects a random item from a list\par
+\par
+#Health of things\par
+shiaHealth = 150\par
+playerHealth = 100\par
+\par
+# The adjusted odds of things happening depending on how the player enters the cottage\par
+#in order, the odds go: 1/2, 1/3, 1/4, 1/6, 1/10, 1/12, 2/3, 9/10\par
+#\tab the adjusted lists follow (Using fractions of base 120 to generate probabilities)\par
+snunkIn \tab = [60, 40, 30, 20, 12, 10, 80, 108]\par
+walkedIn \tab = [90, 60, 45, 30, 18, 15, 120, 156]\par
+ranIn \tab = [75, 50, 38, 25, 15, 13, 100, 135]\par
+gotSeen \tab = [105, 70, 53, 35, 21, 18, 140, 189]\par
+\par
+theOdds = snuckIn\par
+\par
+\par
+MODULE \lquote COTTAGE\rquote :\par
+\par
+PRINT \lquote Gnawing off your leg (quiet, quiet)\rquote\par
+PRINT \lquote What to do now?\rquote\par
+\par
+WHILE player has not entered the cottage successfully:\par
+\tab a = INPUT\par
+\tab IF a == \lquote look\rquote :\par
+\tab\tab THEN PRINT \lquote the forest is dark, you can make out a cottage to the south\'85 etc\rquote\par
+\tab ElSEIF  a  says sneak or walk south:\par
+\tab\tab THEN they advance to the doorstep \par
+\tab\tab ENDWHILE\par
+\tab ELSEIF a says run or walk somewhere other than south:\par
+\tab\tab THEN you end up in the same place lmao\par
+\tab ELSEIF a == \lquote help\rquote :\par
+\tab\tab THEN PRINT the help stuff\par
+\tab ELSE:\par
+\tab\tab THEN PRINT \lquote I don\rquote t understand\rquote\par
+\par
+#The player should either make it onto the doorstep, or die\par
+PRINT \lquote limping toward the cottage (quiet, quiet), Now you\rquote re on the doorstep (quiet, quiet), Sitting inside, Shia Labeouf. Sharpening an axe (Shia Labeouf)\'85.\rquote\par
+\par
+#\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\par
+\par
+#Each turn the player waits on the doorstep, shia gets closer to finishing sharpening his axe, and noticing the player.\par
+TurnsWaiting = 0\par
+\par
+ExtraTurn = False\par
+\par
+WHILE player has not entered the fight scene proper:\par
+\tab a = INPUT\par
+\tab IF TurnsWaiting > 3:\par
+\tab\tab THEN shia spots you and throws his axe into your head\par
+\tab\tab DEATH\par
+\tab ELSEIF a == \lquote look\rquote :\par
+\tab\tab THEN PRINT \lquote Shia is sitting in a high backed arm chair, with his back to the doorway, and to you.;\par
+\tab\tab\tab\tab\tab You can hear the scraping of a whetstone against Shia\rquote s axe,;\par
+\tab\tab\tab\tab\tab Which seems to be the object of the entirety of Shia\rquote s attention, for now\'85\rquote ;\par
+\tab\tab\tab\tab\tab TurnsWaiting += 1;\par
+\tab ELSEIF a says run at shia:\par
+\tab\tab THEN theOdds = ranIn\par
+\tab\tab ENDWHILE\par
+\tab ELSEIF a says walk to shia:\par
+\tab\tab THEN theOdds = walkedIn\par
+\tab\tab ENDWHILE\par
+\tab ELSEIF a says walk inside:\par
+\tab\tab THEN theOdds = gotSeen\par
+\tab\tab ENDWHILE\par
+\tab ELSEIF a says sneak to shia:\par
+\tab\tab THEN theOdds = snuckIn\par
+\tab\tab TurnsWaiting += 1\par
+\tab\tab WHILE the player is undetected:\par
+\tab\tab\tab IF TurnsWaiting > 3\par
+\tab\tab\tab\tab THEN shia spots you and throws his axe into your head\par
+\tab\tab\tab\tab DEATH\par
+\tab\tab\tab ELSEIF a says strangle shia:\par
+\tab\tab\tab\tab THEN shiaHealth -= 60\par
+\tab\tab\tab\tab ENDWHILE\par
+\tab\tab\tab ELSEIF a says hit shia:\par
+\tab\tab\tab\tab THEN;\par
+\tab\tab\tab\tab IF the back of shia\rquote s head:\par
+\tab\tab\tab\tab ELSEIF shia\rquote s temple:\par
+\tab\tab\tab\tab\tab THEN shiaHealth -=50\par
+\tab\tab\tab\tab\tab ENDWHILE\par
+\tab\tab\tab\tab ELSEIF shia\rquote s neck:\par
+\tab\tab\tab\tab\tab THEN shiaHealth -=30\par
+\tab\tab\tab\tab\tab ENDWHILE\par
+\tab\tab\tab\tab ELSEIF tip the chair over:\par
+\tab\tab\tab\tab\tab THEN shiaHealth -=10\par
+\tab\tab\tab\tab\tab ExtraTurn = True\par
+\tab\tab\tab\tab\tab ENDWHILE\par
+\tab\tab ENDWHILE\par
+\par
+\tab\par
+\tab\par
+#\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\emdash\par
+\par
+CLASS Bodypart(self, name, dismembered, damageLoss,):\par
+\tab leftHand = \lquote left hand\rquote , False, -10\par
+\tab rightHand = \lquote right hand\rquote , False, -10\par
+\tab leftArm = \lquote left arm\rquote , False, -22\par
+\tab rightArm = \lquote right arm\rquote , False, -22\par
+\tab leftFoot = \lquote left foot\rquote , False, -10\par
+\tab rightFoot = \lquote right foot\rquote , False, -10\par
+\tab leftLeg = \lquote left leg\rquote , False, -28\par
+\tab rightLeg = \lquote right leg\rquote , False, -28\par
+\par
+\tab FUNCTION dismember(self, name, dismembered):\par
+\tab\tab IF self.dismembered == True:\par
+\tab\tab\tab THEN PRINT \ldblquote You have managed to dismember the same article twice\rdblquote\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN IF \lquote arm\rquote  in self.name:\par
+\tab\tab\tab\tab THEN dismember that hand\par
+\tab\tab\tab\par
+\tab\tab\tab ELSEIF \lquote leg\rquote  in self.name:\par
+\tab\tab\tab\tab THEN dismember that leg\par
+\tab\tab\tab\par
+\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab THEN self.dismember = True\par
+\par
+\par
+bodypartsList = [leftHand, rightHand, leftArm, rightArm, leftFoot, rightFoot, leftLeg, rightLeg,]\par
+\par
+\par
+#Function that determines what Shia does with his life and part of how the player reacts\par
+#25% of the time Shia skips his turn and regenerates 10-20 health\par
+#50% of the time Shia attacks the player conventionally\par
+#25% of the time Shia tries to eat a bit of the player\par
+\par
+FUNCTION SHIAMOVES(theOdds):\par
+\tab Dec1 = RANDINT(1, 100)\par
+\tab Dec2 = RANDINT(1, 100)\par
+\par
+\tab #Skipped turn and health regen\par
+\tab IF Dec1 < 26:\par
+\tab\tab THEN shiaHealth += RANDINT(10, 20)\par
+\tab\tab END FUNCTION\par
+\tab\par
+\tab #Conventional Attack\par
+\tab ELSEIF 25 < Dec1 < 76:\par
+\par
+\tab\tab #Straight right\par
+\tab\tab THEN IF Dec2 < 11:\par
+\tab\tab\tab THEN PRINT \ldblquote the dialogue about shia lining up a straight left\rdblquote\par
+\tab\tab\tab WHILE TRUE:\par
+\tab\tab\tab\tab a = INPUT\par
+\tab\tab\tab\tab IF a says block the punch:\par
+\tab\tab\tab\tab\tab THEN IF leftHand.dismembered == True:\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote the dialogue about you not having a hand\rdblquote\par
+\tab\tab\tab\tab\tab\tab playerHealth -= 20\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab #50/50 chance of a successful block\par
+\tab\tab\tab\tab\tab\tab IF RANDINT(1, 120) > theOdds[0]\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote successful block dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote unsuccessful block dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab\tab playerHealth -= 10\par
+\tab\tab\tab\tab ELSEIF a says dodge: \par
+\tab\tab\tab\tab\tab #1/3 chance of success (2/3 chance of failure)\par
+\tab\tab\tab\tab\tab THEN IF RANDINT(1, 120) < theOdds[6]:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote unsuccessful dodge dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab playerHealth -= 10\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote successful dodge dialogue\rquote  \par
+\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab THEN PRINT \ldblquote Please input a valid instruction (block or dodge)\rdblquote\par
+\tab\tab\tab\tab\tab CONTINUE\par
+\tab\tab\tab ENDFUNCTION\par
+\par
+\tab\tab #Straight left\par
+\tab\tab ELSEIF Dec2 < 21:\par
+\tab\tab\tab THEN PRINT \ldblquote the dialogue about shia lining up a straight left\rdblquote\par
+\tab\tab\tab WHILE TRUE:\par
+\tab\tab\tab\tab a = INPUT\par
+\tab\tab\tab\tab IF a says block the punch:\par
+\tab\tab\tab\tab\tab THEN IF rightHand.dismembered == True:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote the dialogue about you not having a hand\rdblquote\par
+\tab\tab\tab\tab\tab\tab playerHealth -= 20\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab #50/50 chance of a successful block\par
+\tab\tab\tab\tab\tab\tab IF RANDINT(1, 120) > theOdds[0]\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote successful block dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote unsuccessful block dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab\tab playerHealth -= 10\par
+\tab\tab\tab\tab ELSEIF a says dodge: \par
+\tab\tab\tab\tab\tab #2/3 chance of failure\par
+\tab\tab\tab\tab\tab THEN IF RANDINT(1, 120) < theOdds[6]:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote unsuccessful dodge dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab playerHealth -= 10\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT  \ldblquote successful dodge dialogue\rdblquote\par
+\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab THEN PRINT \ldblquote Please input a valid instruction (block or dodge)\rdblquote\par
+\tab\tab\tab\tab\tab CONTINUE\par
+\tab\tab\tab ENDFUNCTION\par
+\par
+\tab\tab #left hook\par
+\tab\tab ELSEIF Dec2 < 31\par
+\tab\tab\tab THEN PRINT \ldblquote the dialogue about shia lining up a left hook\rdblquote\par
+\tab\tab\tab WHILE TRUE:\par
+\tab\tab\tab\tab a = INPUT\par
+\tab\tab\tab\tab IF a says block the punch:\par
+\tab\tab\tab\tab\tab THEN IF rightHand.dismembered == True:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote the dialogue about you not having a hand\rdblquote\par
+\tab\tab\tab\tab\tab\tab playerHealth -= 25\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab #2/3 chance of a successful block\par
+\tab\tab\tab\tab\tab\tab IF RANDINT(1, 120) < theOdds[6]\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote unsuccessful block dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab\tab playerHealth -= 15\par
+\tab\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote successful block dialogue\rquote  \par
+\tab\tab\tab\tab ELSEIF a says dodge: \par
+\tab\tab\tab\tab\tab #2/3 chance of a successful block\par
+\tab\tab\tab\tab\tab THEN IF RANDINT(1, 120) < theOdds[6]:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote unsuccessful dodge dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab playerHealth -= 15\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote successful dodge dialogue\rquote  \par
+\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab THEN PRINT \ldblquote Please input a valid instruction (block or dodge)\rdblquote\par
+\tab\tab\tab\tab\tab CONTINUE\par
+\tab\tab\tab ENDFUNCTION\par
+\par
+\tab\tab #right hook\par
+\tab\tab ELSEIF Dec2 < 41\par
+\tab\tab\tab THEN PRINT \ldblquote the dialogue about shia lining up a right hook\rdblquote\par
+\tab\tab\tab WHILE TRUE:\par
+\tab\tab\tab\tab a = INPUT\par
+\tab\tab\tab\tab IF a says block the punch:\par
+\tab\tab\tab\tab\tab THEN IF leftHand.dismembered == True:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote the dialogue about you not having a hand\rdblquote\par
+\tab\tab\tab\tab\tab\tab playerHealth -= 25\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab #2/3 chance of a successful block\par
+\tab\tab\tab\tab\tab\tab IF RANDINT(1, 120) < theOdds[6]\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote unsuccessful block dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab\tab playerHealth -= 15\par
+\tab\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote successful block dialogue\rquote  \par
+\tab\tab\tab\tab ELSEIF a says dodge: \par
+\tab\tab\tab\tab\tab #2/3 chance of a successful dodge\par
+\tab\tab\tab\tab\tab THEN IF RANDINT(1, 120) < theOdds[6]:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote unsuccessful dodge dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab playerHealth -= 15\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote successful dodge dialogue\rquote  \par
+\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab THEN PRINT \ldblquote Please input a valid instruction (block or dodge)\rdblquote\par
+\tab\tab\tab\tab\tab CONTINUE\par
+\tab\tab\tab ENDFUNCTION\par
+\tab\par
+\tab\tab #uppercut\par
+\tab\tab ELSEIF Dec2 < 51:\par
+\tab\tab\tab THEN PRINT \ldblquote the dialogue about shia lining up an uppercut\rdblquote\par
+\tab\tab\tab WHILE TRUE\par
+\tab\tab\tab\tab a = INPUT\par
+\tab\tab\tab\tab IF a says block the punch:\par
+\tab\tab\tab\tab\tab THEN IF leftHand.dismembered == True and rightHand.dismembered == True:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote the dialogue about you not having any hands\rdblquote\par
+\tab\tab\tab\tab\tab\tab playerHealth -= 30\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab #1/6 chance of a unsuccessful block (5/6 chance of an successful block)\par
+\tab\tab\tab\tab\tab\tab IF RANDINT(1, 120) < theOdds[3]\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote unsuccessful block dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab\tab playerHealth -= 25\par
+\tab\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote successful block dialogue\rquote  \par
+\tab\tab\tab\tab #1/4 chance of failure to dodge an uppercut\par
+\tab\tab\tab\tab ELSEIF a says dodge the punch:\par
+\tab\tab\tab\tab\tab THEN IF RANDINT(1, 120) < theOdds[2]:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote The dialogue about failing to dodge the uppercut\rdblquote\par
+\tab\tab\tab\tab\tab\tab playerHealth -= 25\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote successful dodge dialogue\rdblquote\par
+\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab THEN PRINT \ldblquote Please input a valid instruction (block or dodge)\rdblquote\par
+\tab\tab\tab\tab\tab CONTINUE\par
+\tab\tab\tab ENDFUNCTION\par
+\par
+\tab\tab #low kick\par
+\tab\tab ELSEIF Dec2 < 61:\par
+\tab\tab\tab THEN PRINT \ldblquote the dialogue about shia lining up a low kick\rdblquote\par
+\tab\tab\tab WHILE TRUE:\par
+\tab\tab\tab\tab a = INPUT\par
+\tab\tab\tab\tab IF a says block the kick:\par
+\tab\tab\tab\tab\tab THEN IF leftLeg.dismembered == True:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote the dialogue about you not having a leg\rdblquote\par
+\tab\tab\tab\tab\tab\tab playerHealth -= 25\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab #2/3 chance of a successful block (1/3 chance of failure)\par
+\tab\tab\tab\tab\tab\tab IF RANDINT(1, 120) < theOdds[1]\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote unsuccessful block dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab\tab playerHealth -= 15\par
+\tab\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote successful block dialogue\rquote  \par
+\tab\tab\tab\tab ELSEIF a says dodge: \par
+\tab\tab\tab\tab\tab #2/3 chance of success (1/3 chance of failure)\par
+\tab\tab\tab\tab\tab THEN IF RANDINT(1, 120) < theOdds[1]:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote unsuccessful dodge dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab playerHealth -= 15\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote successful dodge dialogue\rquote  \tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab THEN PRINT \ldblquote Please input a valid instruction (block or dodge)\rdblquote\par
+\tab\tab\tab\tab\tab CONTINUE\par
+\tab\tab\tab ENDFUNCTION\par
+\par
+\tab\tab #Headbutt\par
+\tab\tab ELSEIF Dec2 < 71\par
+\tab\tab\tab THEN PRINT \ldblquote the dialogue about shia lining up an headbutt\rdblquote\par
+\tab\tab\tab WHILE TRUE\par
+\tab\tab\tab\tab a = INPUT\par
+\tab\tab\tab\tab IF a says block the headbutt:\par
+\tab\tab\tab\tab\tab THEN PRINT \ldblquote You can\rquote t really block an headbutt, but as soon as you realise that, your nose is shattered by shia\rquote s forhead.\rdblquote\par
+\tab\tab\tab\tab\tab playerHealth -= 10\par
+\tab\tab\tab\tab #1/3 chance of failure to dodge an headbutt\par
+\tab\tab\tab\tab ELSEIF a says dodge the headbutt:\par
+\tab\tab\tab\tab\tab THEN IF RANDINT(1, 120) < theOdds[6]:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote The dialogue about failing to dodge the headbutt\rdblquote\par
+\tab\tab\tab\tab\tab\tab playerHealth -= 5\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote successful dodge dialogue\rdblquote\par
+\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab THEN PRINT \ldblquote Please input a valid instruction (block or dodge)\rdblquote\par
+\tab\tab\tab\tab\tab CONTINUE\par
+\tab\tab\tab ENDFUNCTION\par
+\par
+\tab\tab #kick to the balls\par
+\tab\tab ELSEIF Dec2 < 81\par
+\tab\tab\tab THEN PRINT \ldblquote the dialogue about shia lining up a kick to the balls\rdblquote\par
+\tab\tab\tab WHILE TRUE:\par
+\tab\tab\tab\tab a = INPUT\par
+\tab\tab\tab\tab IF a says block the kick:\par
+\tab\tab\tab\tab\tab THEN IF leftHand.dismembered == True and rightHand.dismembered == True:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote the dialogue about you not having any hands\rdblquote\par
+\tab\tab\tab\tab\tab\tab playerHealth -= 35\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab #1/3 chance of a unsuccessful block\par
+\tab\tab\tab\tab\tab\tab IF RANDINT(1, 120) < theOdds[1]\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote unsuccessful block dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab\tab playerHealth -= 30\par
+\tab\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote successful block dialogue\rquote  \par
+\tab\tab\tab\tab ELSEIF a says dodge: \par
+\tab\tab\tab\tab\tab #2/3 chance of failure\par
+\tab\tab\tab\tab\tab THEN IF RANDINT(1, 120) < theOdds[6]:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote unsuccessful dodge dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab playerHealth -= 30\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote successful dodge dialogue\rquote  \par
+\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab THEN PRINT \ldblquote Please input a valid instruction (block or dodge)\rdblquote\par
+\tab\tab\tab\tab\tab CONTINUE\par
+\tab\tab\tab ENDFUNCTION\par
+\par
+\tab\tab #shoulder charge\par
+\tab\tab ELSEIF Dec2 < 91\par
+\tab\tab\tab THEN PRINT \ldblquote the dialogue about shia lining up a shoulder charge\rdblquote\par
+\tab\tab\tab WHILE TRUE:\par
+\tab\tab\tab\tab a = INPUT\par
+\tab\tab\tab\tab IF a says block the charge:\par
+\tab\tab\tab\tab\tab #1/10 chance of successfully blocking\par
+\tab\tab\tab\tab\tab #You \ldblquote block\rdblquote  shoulder charges with both your arms, so you need arms\par
+\tab\tab\tab\tab\tab THEN IF leftArm.dismembered == True and rightArm.dismembered == True:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote You don\rquote t have arms to block with\rdblquote\par
+\tab\tab\tab\tab\tab\tab playerHealth -= 20\par
+\tab\tab\tab\tab\tab ELSEIF RANDINT(1, 120) < theOdds[4]\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote unsuccessful block dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab\tab playerHealth -= 15\par
+\tab\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote successful block dialogue\rquote  \par
+\tab\tab\tab\tab ELSEIF a says dodge: \par
+\tab\tab\tab\tab\tab #1/3 chance of failure (2/3 chance of success)\par
+\tab\tab\tab\tab\tab THEN IF RANDINT(1, 120) < theOdds[1]:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote unsuccessful dodge dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab playerHealth -= 15\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote successful dodge dialogue\rquote  \tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab THEN PRINT \ldblquote Please input a valid instruction (block or dodge)\rdblquote\par
+\tab\tab\tab\tab\tab CONTINUE\par
+\tab\tab\tab ENDFUNCTION\par
+\par
+\tab\tab #strangle\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT \ldblquote the dialogue about shia lunging forward to strangle you\rdblquote\par
+\tab\tab\tab WHILE TRUE:\par
+\tab\tab\tab\tab a = INPUT\par
+\tab\tab\tab\tab IF a says block the charge:\par
+\tab\tab\tab\tab\tab #1/10 chance of successfully blocking\par
+\tab\tab\tab\tab\tab #You \ldblquote block\rdblquote  shoulder charges with both your arms, so you need arms\par
+\tab\tab\tab\tab\tab THEN IF leftArm.dismembered == True and rightArm.dismembered == True:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \ldblquote You don\rquote t have arms to block with\rdblquote\par
+\tab\tab\tab\tab\tab\tab playerHealth -= 20\par
+\tab\tab\tab\tab\tab ELSEIF RANDINT(1, 120) < theOdds[4]\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote unsuccessful block dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab\tab playerHealth -= 15\par
+\tab\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab\tab THEN PRINT \lquote successful block dialogue\rquote  \par
+\tab\tab\tab\tab ELSEIF a says dodge: \par
+\tab\tab\tab\tab\tab #2/3 chance of failure (1/3 chance of success)\par
+\tab\tab\tab\tab\tab THEN IF RANDINT(1, 120) < theOdds[6]:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote unsuccessful dodge dialogue\rquote  \par
+\tab\tab\tab\tab\tab\tab playerHealth -= 15\par
+\tab\tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab\tab THEN PRINT \rquote successful dodge dialogue\rquote  \tab\tab\tab\tab ELSE:\par
+\tab\tab\tab\tab\tab THEN PRINT \ldblquote Please input a valid instruction (block or dodge)\rdblquote\par
+\tab\tab\tab\tab\tab CONTINUE\par
+\tab\tab\tab ENDFUNCTION\par
+\par
+\tab\par
+\tab #attempts to eat the player\par
+\tab ELSE:\par
+\tab\tab THEN the target is RANDOM.CHOICE of Bodypart where dismembered == False:\par
+\tab\tab #90% chance of shia successfully eating a part of you\par
+\tab\tab IF RANDINT(1, 120) > theOdds[7]:\par
+\tab\tab\tab PRINT \lquote Your\rquote  + Bodypart + \lquote got eaten off\rquote\par
+\tab\tab\tab THEN target.dismembered = True\par
+\tab\tab\tab playerHealth -= target.damageLoss\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT \ldblquote Your\rquote  + Bodypart + \lquote didn\rquote t get eaten off\rdblquote\par
+\tab\tab\par
+\tab\tab ENDFUNCTION\par
+\par
+\tab\par
+\par
+\par
+#Attacking body part is something like \lquote hand\rquote  or \lquote leg\rquote\par
+#Function edits shia\rquote s health, and then returns a boolean value to be used in the while loop below to decide which dialogue to play\par
+FUNCTION playerMoves(attackingBodypart, target):\par
+\tab actualBit = \lquote\rquote\par
+\tab Omod = 0\par
+\tab Dmod\par
+\tab #Determining whether the right or left leg/arm is being used, and if the player has neither, ending the function.\par
+\tab IF right + \lquote attackingBodypart\rquote  .dismembered == True:\par
+\tab\tab actualBit == left + attackingBodypart\par
+\tab ELSEIF leftLeg.dismembered == True:\par
+\tab\tab actualBit == right + attackingBodypart\par
+\tab ELSEIF right + attackingbodypart.dismembered == True and leftArm.dismembered == True:\par
+\tab\tab RETURN NULL\par
+\tab\tab ENDFUNCTION\par
+\par
+\par
+\tab #Determining if an arm or a leg is being used arms have higher odds but do less damage\par
+\tab IF \lquote arm\rquote  or \lquote hand\rquote  in attackingBodypart:\par
+\tab\tab THEN Omod +=10\par
+\tab\tab Dmod -= 10\par
+\par
+\tab ELSEIF \lquote leg\rquote  or \lquote foot\rquote  in attackingBodypart:\par
+\tab\tab THEN Omod -=10\par
+\tab\tab Dmod += 10\par
+\par
+\par
+\tab #Attacking the body part in Question\par
+\tab #Dictionary of the probabilities of successfully attacking different body parts (out of 120), and the damage shia takes\par
+\tab\par
+\tab Probabilities: \{\par
+\tab head: [70, 40]\par
+\tab nose: [80, 30]\par
+\tab eye: [80, 45]\par
+\tab temple: [70, 45]\par
+\tab neck: [80, 35]\par
+\tab shoulder: [100, 20] \par
+\tab sternum: [90, 25]\par
+\tab stomach: [85, 30]\par
+\tab groin: [68, 45]\par
+\tab thigh: [100, 15]\par
+\tab knee: [90, 28]\par
+\tab shin: [100, 25]\par
+\tab ankle: [95, 22]\par
+\tab\}\par
+\tab\tab\par
+\tab IF RANDINT(1, 120) < (Probabilities[target][0] + Omod):\par
+\tab\tab THEN shiaHealth -= (Probabilities[target][1] + Dmod)\par
+\tab\tab RETURN TRUE\par
+\tab\tab ENDFUNCTION\par
+\tab ELSE:\par
+\tab\tab RETURN FALSE\par
+\tab\tab ENDFUNCTION\par
+\par
+\par
+\par
+\par
+WHILE the fight is ongoing:\par
+\tab #If the player gained an extra turn then the extra turn value is set to false and the player gets a move\par
+\tab IF extraTurn == False:\par
+\tab\tab THEN SHIAMOVES\par
+\tab ELSEIF extraTurn == True:\par
+\tab\tab THEN extraTurn = False\par
+\tab\tab PRINT something like shia is stunned, now is your chance!\par
+\tab boolean = NULL\par
+\tab attackingBodypart = rightArm\par
+\tab a = INPUT\par
+\tab IF playerHealth == 0:\par
+\tab\tab THEN DEATH\par
+\tab ELSEIF shiaHealth == 0:\par
+\tab\tab THEN ENDWHILE\par
+\par
+\tab IF a says punch shia in the head: \par
+\tab\tab THEN boolean = playerMoves(hand, head)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the head:\par
+\tab\tab THEN boolean = playerMoves(foot, head)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says punch shia in the nose: \par
+\tab\tab THEN boolean = playerMoves(hand, nose)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the nose:\par
+\tab\tab THEN boolean = playerMoves(foot, nose)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says punch shia in the eye:\par
+\tab\tab THEN boolean = playerMoves(hand, eye)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the eye:\par
+\tab\tab THEN boolean = playerMoves(foot, eye)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says punch shia in the temple:\par
+\tab\tab THEN boolean = playerMoves(hand, temple)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the temple:\par
+\tab\tab THEN boolean = playerMoves(foot, temple)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says punch shia in the neck:\par
+\tab\tab THEN boolean = playerMoves(hand, neck)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the neck:\par
+\tab\tab THEN boolean = playerMoves(foot, neck)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says punch shia in the shoulder:\par
+\par
+\tab ELSEIF a says kick shia in the shoulder:\par
+ \tab\tab THEN boolean = playerMoves(foot, shoulder)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says punch shia in the sternum:\par
+\tab\tab THEN boolean = playerMoves(hand, sternum)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the sternum:\par
+\tab\tab THEN boolean = playerMoves(foot, sternum)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+ \par
+\tab ELSEIF a says punch shia in the stomach:\par
+\tab\tab THEN boolean = playerMoves(hand, stomach)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the stomach:\par
+\tab\tab THEN boolean = playerMoves(foot, stomach)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+ \par
+\tab ELSEIF a says punch shia in the groin:\par
+\tab\tab THEN boolean = playerMoves(hand, groin)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the groin:\par
+\tab\tab THEN boolean = playerMoves(foot, groin)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE  \par
+\par
+\tab ELSEIF a says punch shia in the thigh:\par
+\tab\tab THEN boolean = playerMoves(hand, thigh)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the thigh:\par
+\tab\tab THEN boolean = playerMoves(foot, thigh)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+ \par
+\tab ELSEIF a says punch shia in the knee:\par
+\tab\tab THEN boolean = playerMoves(hand, knee)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the knee:\par
+\tab\tab THEN boolean = playerMoves(foot, knee)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+ \par
+\tab ELSEIF a says punch shia in the shin:\par
+\tab\tab THEN boolean = playerMoves(hand, shin)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the shin:\par
+\tab\tab THEN boolean = playerMoves(foot, shin)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+ \par
+\tab ELSEIF a says punch shia in the ankle:\par
+\tab\tab THEN boolean = playerMoves(hand, ankle)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any hands\par
+\tab\tab\tab CONTINUE \par
+\par
+\tab ELSEIF a says kick shia in the ankle:\par
+\tab\tab THEN boolean = playerMoves(foot, ankle)\par
+\tab\tab IF boolean == True:\par
+\tab\tab\tab THEN PRINT successful attack dialogue \par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSEIF boolean == False:\par
+\tab\tab\tab THEN PRINT unsuccessful attack dialogue\par
+\tab\tab\tab CONTINUE\par
+\tab\tab ELSE:\par
+\tab\tab\tab THEN PRINT something along the lines of you don\rquote t have any feet\par
+\tab\tab\tab CONTINUE \par
+\par
+\par
+\tab\par
+PRINT some victory dialogue\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\tab\par
+END MODULE COTTAGE\par
+\par
+\tab\par
+\par
 }
+ 
