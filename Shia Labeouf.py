@@ -86,7 +86,8 @@ class bodypart:
             self.damageLoss = damageLoss
 
 
-    def dismember(self, dismembered, damageLoss):
+    def dismember(self, damageLoss):
+        global bodypartList
         if self.dismembered == True:
             print('You have managed to dismember the same article twice')
         else:
@@ -120,11 +121,120 @@ rightLeg = bodypart('right leg', False, -28)
 bodypartList = ['left hand', 'right hand', 'left arm', 'right arm', 'left foot', 'right foot','left leg', 'right leg']
 
 
+#The function that determines how shia moves
 
+def shiaMoves():
+    global shiaHealth
+    global playerHealth
+    dec1 = random.randint(1, 100)
+    dec2 = random.randint(1, 100)
 
+    #Shia skips his turn and regenerates some health
+    if dec1 < 26:
+        shiaHelth += random.randint(10, 20)
+        print('Shia pauses for a moment, catching his breath. \nAs you pauses for a second, his injuries appear to fade slightly...')
+        return
+
+    elif dec1 > 24 and dec1 < 76:
+        #Straight Right:
+        if dec2 < 11:
+            print('Shia squares up to you, and his right fist shoots out towards you. \nYou have a split second to make a decision: \nBlock or dodge?')
+            while True:
+                a = input().lower()
+                if a == 'block':
+                    if leftArm.dismembered:
+                        print('Your bring your left arm up to defend, \nbefore realising that you no longer possess one. \nShia\'s fist crashes into you, knocking you backwards.')
+                        playerHealth -= 20
+                    elif leftHand.dismembered:
+                        print('Your bring your left arm up to defend, \nbefore realising that your hand is missing. \nShia\'s fist crashes into your stump arm, excruciating pain follows.')
+                        playerhealth -= 20
+                    else:
+                        #50/50
+                        if random.randint(1, 120) > theOdds[0]:
+                             print('You bring your arm up, knocking Shia\'s fist aside.')
+                             return
+                         else:
+                            print('You attempt to block the punch, but Shia\'s fist slides through your guard, \nand crashes into you.')
+                            playerHealth -= 10
+                elif a == 'dodge':
+                    #2/3 chance of failure
+                    if random.randint(1, 120) < theOdds[6]:
+                        print('You try to sidestep Shia\'s fist, but it slams into you nonetheless')
+                        playerHealth -= 10
+                    else:
+                        print('You step smoothly out of the path of Shia\'s fist, leaving him stumbling.')
+                else:
+                    print('Please input a valid instruction (block or dodge)')
+                    continue
+            
+        #Striaght left:
+        if dec2 < 21:
+            print('Shia squares up to you, and his left fist shoots out towards you. \nYou have a split second to make a decision: \nBlock or dodge?')
+            while True:
+                a = input().lower()
+                if a == 'block':
+                    if rightArm.dismembered:
+                        print('Your bring your right arm up to defend, \nbefore realising that you no longer possess one. \nShia\'s fist crashes into you, knocking you backwards.')
+                        playerHealth -= 20
+                    elif rightHand.dismembered:
+                        print('Your bring your right arm up to defend, \nbefore realising that your hand is missing. \nShia\'s fist crashes into your stump arm, excruciating pain follows.')
+                        playerhealth -= 20
+                    else:
+                        #50/50
+                        if random.randint(1, 120) > theOdds[0]:
+                             print('You bring your arm up, knocking Shia\'s fist aside.')
+                             return
+                         else:
+                            print('You attempt to block the punch, but Shia\'s fist slides through your guard, \nand crashes into you.')
+                            playerHealth -= 10
+                elif a == 'dodge':
+                    #2/3 chance of failure
+                    if random.randint(1, 120) < theOdds[6]:
+                        print('You try to sidestep Shia\'s fist, but it slams into you nonetheless')
+                        playerHealth -= 10
+                    else:
+                        print('You step smoothly out of the path of Shia\'s fist, leaving him stumbling.')
+                else:
+                    print('Please input a valid instruction (block or dodge)')
+                    continue
+            
+        #Left hook:
+        if dec2 < 11:
+            print('Shia winds up for a colossal blow, his left hand whisltes through the air, \ngiving you a moment to consider your options. \nBlock or Dodge?')
+            while True:
+                a = input().lower()
+                if a == 'block':
+                    if rightArm.dismembered:
+                        print('You brace your right arm for the impact of Shia\'s fist, \nbefore realising that you no longer possess one. \nShia\'s fist crashes into you, knocking you aside.')
+                        playerHealth -= 20
+                    elif rightHand.dismembered:
+                        print('You brace your right arm for the impact of Shia\'s fist, \nbefore realising that your hand is missing. \nShia\'s fist crashes into your stump arm, excruciating pain follows.')
+                        playerhealth -= 20
+                    else:
+                        #2/3 chance of success
+                        if random.randint(1, 120) > theOdds[6]:
+                            print('You attempt to block the punch, but Shia\'s fist crashes through your guard, \nand falls into you.')
+                            playerHealth -= 10
+                         else:
+                             print('You bring your arm up, knocking Shia\'s fist aside.')
+                             return
+                elif a == 'dodge':
+                    #2/3 chance of success
+                    if random.randint(1, 120) > theOdds[6]:
+                        print('You try to duck under Shia\'s fist, but it moves too fast, and catches you before you can escape')
+                        playerHealth -= 10
+                    else:
+                        print('You duck smoothly under the path of Shia\'s fist, leaving him stumbling.')
+                else:
+                    print('Please input a valid instruction (block or dodge)')
+                    continue
+                
+                            
+        
 
 a = input().lower()
 while a != '!skip':
+    a = input().lower()
     if 'help' in a:
         help_()
         a = input()
@@ -132,6 +242,10 @@ while a != '!skip':
         print('------')
         print('You\'re walking in the woods,\nthere\'s no one around and your phone is dead. \nout of the corner of your eye you spot him\n... \n... \nShia Lebeouf.')
         break
+    else:
+        print('type something else bub')
+
+
 
 #----------------------------------------------------
 #WOODS1

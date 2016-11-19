@@ -161,7 +161,7 @@ FUNCTION SHIAMOVES(theOdds):\
 							playerHealth -= 10\
 				ELSEIF a says dodge: \
 					#1/3 chance of success (2/3 chance of failure)\
-					THEN IF RANDINT(1, 120) > theOdds[1]:\
+					THEN IF RANDINT(1, 120) < theOdds[6]:\
 						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
 						playerHealth -= 10\
 					ELSE:\
@@ -189,7 +189,7 @@ FUNCTION SHIAMOVES(theOdds):\
 							playerHealth -= 10\
 				ELSEIF a says dodge: \
 					#2/3 chance of failure\
-					THEN IF RANDINT(1, 120) > theOdds[1]:\
+					THEN IF RANDINT(1, 120) < theOdds[6]:\
 						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
 						playerHealth -= 10\
 					ELSE:\
@@ -216,7 +216,7 @@ FUNCTION SHIAMOVES(theOdds):\
 						ELSE:\
 							THEN PRINT \'91successful block dialogue\'92 \
 				ELSEIF a says dodge: \
-					#2/3 chance of failure\
+					#2/3 chance of a successful block\
 					THEN IF RANDINT(1, 120) < theOdds[6]:\
 						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
 						playerHealth -= 15\
@@ -244,7 +244,7 @@ FUNCTION SHIAMOVES(theOdds):\
 						ELSE:\
 							THEN PRINT \'91successful block dialogue\'92 \
 				ELSEIF a says dodge: \
-					#2/3 chance of failure\
+					#2/3 chance of a successful block\
 					THEN IF RANDINT(1, 120) < theOdds[6]:\
 						THEN PRINT \'92unsuccessful dodge dialogue\'92 \
 						playerHealth -= 15\
