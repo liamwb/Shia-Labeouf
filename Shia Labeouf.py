@@ -377,7 +377,33 @@ def shiaMoves():
             while True:
                 a = input().lower()
                 if a == 'block':
-                    #You can't block a headbutt, but I won't be telling the player that
+                    if rightArm.dismembered and leftArm.dismebered:
+                        print('You go to knock Shia\'s head aside, but realise too late that you don\'t have any arms')
+                        playerHealth -= 5
+                        return
+                    else:
+                        #1/3 chance of failure to block
+                        if random.randint(1, 120) < theOdds[1]:
+                            print('You sweep your elbow into the side of Shia\'s head, knocking it aside.')
+                            return
+                elif a == 'dodge':
+                    #1/3 chance of failure to dodge
+                    if random.randint(1, 120) < theOdds[1]:
+                        print('You step out of Shia\'s path, but he changes direction on a dime, crashing into you.')
+                        playerHealth -= 5
+                        return
+                    else:
+                        print('You step out of Shia\'s path, and he blunders on past you.')
+                        return
+                else:
+                    print('Please input a valid instruction (block or dodge)')
+                    continue
+        #Shoulder charge
+        elif dec1 < 81:
+            print('Shia springs forward, leaning sideways and tucking his chin down, \nhis shoulder rushes toward you with his full bodyweight behind it. \nShia is almost upon you, you need to make your move! \nBlock or dodge?')
+            while True:
+                a = input().lower()
+                if a == 'block':
                     print('Shia\'s head crashes through your guard, pushing you backwards.')
                     playerHealth -= 5
                     return
