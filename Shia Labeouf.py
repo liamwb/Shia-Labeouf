@@ -110,6 +110,7 @@ class bodypart:
                 elif 'right' in self.name:
                     rightFoot.dismembered = True
                     bodypartList.remove(rightFoot.name)
+        
 
                 
 leftHand = bodypart('left hand', False, -10)
@@ -142,7 +143,7 @@ def shiaMoves():
     #Shia skips his turn and regenerates some health
     if dec1 < 26:
         shiaHealth += random.randint(10, 20)
-        print('Shia pauses for a moment, catching his breath. \nAs you pauses for a second, his injuries appear to fade slightly...')
+        print('Shia pauses for a moment, catching his breath. \nAs you pause for a second, his injuries appear to fade slightly...')
         return
 
     elif dec1 > 24 and dec1 < 76:
@@ -398,20 +399,62 @@ def shiaMoves():
                 else:
                     print('Please input a valid instruction (block or dodge)')
                     continue
-        #Shoulder charge
+                
+        #kick to the balls
         elif dec1 < 81:
+            print('Shia pivots on the ball of his foot, bringing the other one up sharply towards your groin. \nThis is dire, will you \nBlock or dodge?')
+            while True:
+                a = input().lower()
+                if a == 'block':
+                    if rightHand.dismembered or leftHand.dismebered:
+                        print('You desperately bring your hands down to defend yourself, \nrealising only as Shia\'s foot crashes into your stump that one of them is missing.')
+                        playerHealth -= 35
+                    elif rightHand.dismembered and leftHand.dismebered:
+                        print('You desperately bring your hands down to defend yourself, \nrealising only as Shia\'s foot crashes into your stump arms that you have none.')
+                        playerHealth -= 35
+                        return
+                    else:
+                        #1/3 chance of failure to block
+                        if random.randint(1, 120) < theOdds[1]:
+                            print('You sweep your elbow into the side of Shia\'s head, knocking it aside.')
+                            return
+                elif a == 'dodge':
+                    #1/3 chance of failure to dodge
+                    if random.randint(1, 120) < theOdds[1]:
+                        print('You jerk your hands down in defence, but they provide little cushioning from Shia\'s foot.')
+                        playerHealth -= 35
+                        return
+                    else:
+                        print('You jerk your hands down in defence, and manage to fend off Shia\'s vicious foot.')
+                        return
+                else:
+                    print('Please input a valid instruction (block or dodge)')
+                    continue
+        
+        #Shoulder charge
+        elif dec1 < 91:
             print('Shia springs forward, leaning sideways and tucking his chin down, \nhis shoulder rushes toward you with his full bodyweight behind it. \nShia is almost upon you, you need to make your move! \nBlock or dodge?')
             while True:
                 a = input().lower()
                 if a == 'block':
-                    print('Shia\'s head crashes through your guard, pushing you backwards.')
-                    playerHealth -= 5
-                    return
+                    if rightArm.dismembered and leftArm.dismebered:
+                        print('You prepare to brace against Shia\'s oncoming shoulder, but realise you don\'t have any arms')
+                        playerHealth -= 20
+                        return
+                    else:
+                        #9/10 chance of failure to block
+                        if random.randint(1, 120) < theOdds[4]:
+                            playerHealth -= 15
+                            print('You ready yourself to absorb the force of Shia\'s charge, \nbut the impact is greater than you anticipated, and the drives through you/')
+                            return
+                        else:
+                            print('You ready yourself to absorb the force of Shia\'s charge. \nAs he hits you, your feet slide back an inch, but you hold your ground and shove him away.')
+
                 elif a == 'dodge':
                     #1/3 chance of failure to dodge
                     if random.randint(1, 120) < theOdds[1]:
                         print('You step out of Shia\'s path, but he changes direction on a dime, crashing into you.')
-                        playerHealth -= 5
+                        playerHealth -= 15
                         return
                     else:
                         print('You step out of Shia\'s path, and he blunders on past you.')
@@ -419,11 +462,133 @@ def shiaMoves():
                 else:
                     print('Please input a valid instruction (block or dodge)')
                     continue
+        #Strangle
+        else:
+            print('Shia tenses on the balls of his feet for a moment, before springing forward, \nhis hands clawing for your throat.')
+            while True:
+                a = input().lower()
+                if a == 'block':
+                    if rightHand.dismembered and leftHand.dismebered:
+                        print('You step inside Shia\'s flailing arms, and go to bring your hands up to his throat, \nbefore realising you have none.')
+                        playerHealth -= 20
+                        return
+                    else:
+                        #9/10 chance of failure to block
+                        if random.randint(1, 120) < theOdds[4]:
+                            playerHealth -= 15
+                            print('You step inside Shia\'s flailing arms, and go to bring your hands up to his throat, \nsuddenly Shia\'s arms are inside yours, pushing them aside, \nand cutting of your air supply.')
+                            print('After an eternity, you break free and stumble away, gasping...')
+                            return
+                        else:
+                            print('You step inside Shia\'s flailing arms, and bring your hands up to his throat, \npushing and grasping firmly, you cut off his air supply, and send him stumbling backwards.')
+                            return
 
-            
+                elif a == 'dodge':
+                    #2/3 chance of failure to dodge
+                    if random.randint(1, 120) < theOdds[6]:
+                        print('You attempt to duck underneath Shia\'s arms, but he darts behind you and wraps his arms around your throat.')
+                        print('After an eternity, you break free and stumble away, gasping...')
+                        playerHealth -= 15
+                        return
+                    else:
+                        print('You duck underneath Shia\'s arms, he stumbles, and rolls over your back')
+                        return
+                else:
+                    print('Please input a valid instruction (block or dodge)')
+                    continue
 
-            
-                 
+    #Shia attempts to eat the player
+    else:
+        target = random.choice(bodypartList)
+        if random.randint(1, 120) > theOdds[7]:
+            if target == 'left hand':
+                print('Before you have time to react, Shia lunges forward, \ngrabs you by the left elbow, and sinks his teeth deep into you wrist.')
+                print('Shia wrenches his head to the side, tearing your hand clean off your arm.')
+                print('You stare in disbelief at what used to be your left hand, then shake your head. \nThere\'s no time for remorse if your going to get out of this alive')
+                leftHand.dismember(-15)
+                return
+            elif target == 'right hand':
+                print('Before you have time to react, Shia lunges forward, \ngrabs you by the right elbow, and sinks his teeth deep into you wrist.')
+                print('Shia wrenches his head to the side, tearing your hand clean off your arm.')
+                print('You stare in disbelief at what used to be your right hand, then shake your head. \nThere\'s no time for remorse if your going to get out of this alive')
+                rightHand.dismember(-15)
+                return
+            elif target =='left arm':
+                print('Faster than you can believe, Shia leaps at you, and is upon you. \nHis head flashes past the left of your head, and you feel his teeth sink into your left shoulder.')
+                print('Shia\'s body tenses, and he bites hard into your shoulder. \nYou feel bone and cartilage crunch, as he tears your arms away from your body.')
+                print('Shia leaps up, takes a bite from your arm and then discards it, as a dog would a bone. \nYou ready yourself for the fight to come.')
+                leftArm.dismember(-30)
+                return
+            elif target =='right arm':
+                print('Faster than you can believe, Shia leaps at you, and is upon you. \nHis head flashes past the right of your head, and you feel his teeth sink into your right shoulder.')
+                print('Shia\'s body tenses, and he bites hard into your shoulder. \nYou feel bone and cartilage crunch, as he tears your arms away from your body.')
+                print('Shia leaps up, takes a bite from your arm and then discards it, as a dog would a bone. \nYou ready yourself for the fight to come.')
+                rightArm.dismember(-30)
+                return
+            elif target =='left foot':
+                if rightFoot.dismember:
+                    print('Shia dives down, tackling you to the ground and grabbing your left foot. \nHis teeth sink into your ankle, and you feel the bones in your shin twist against eachother.')
+                    print('This pain is soon eclipsed, as Shia tears your foot from your leg, hungrily gulping down on the flesh that was once yours.')
+                    print('You look up at Shia, and groan, \nknowing you must continue to fight.')
+                    return
+                else:
+                    print('Shia dives down, tackling you to the ground and grabbing your left foot. \nHis teeth sink into your ankle, and you feel the bones in your shin twist against eachother.')
+                    print('This pain is soon eclipsed, as Shia tears your foot from your leg, hungrily gulping down on the flesh that was once yours.')
+                    print('You hop to your foot, and prepare to fight once again.')
+                    leftFoot.dismember(-17)
+                    return
+            elif target =='right foot':
+                if leftFoot.dismember:
+                    print('Shia dives down, tackling you to the ground and grabbing your right foot. \nHis teeth sink into your ankle, and you feel the bones in your shin twist against eachother.')
+                    print('This pain is soon eclipsed, as Shia tears your foot from your leg, hungrily gulping down on the flesh that was once yours.')
+                    print('You look up at Shia, and groan, \nknowing you must continue to fight.')
+                    return
+                else:
+                    print('Shia dives down, tackling you to the ground and grabbing your right foot. \nHis teeth sink into your ankle, and you feel the bones in your shin twist against eachother.')
+                    print('This pain is soon eclipsed, as Shia tears your foot from your leg, hungrily gulping down on the flesh that was once yours.')
+                    print('You hop to your foot, and prepare to fight once again.')
+                    rightFoot.dismember(-17)
+                    return
+            elif target =='left leg':
+                print('Shia tackels you around the waist, and before you can do anything, \nyou feel his teeth sinking into you left thigh.')
+                print('Shia pushes your leg back as far as it will go, \nand gnaws hungrily at it, until the ligament snaps, and your leg goes limp.')
+                print('He shifts his elbow onto your abdomen, and using the leverage gained, \nrips your leg from your torso. \nHe takes a bite, and throws your leg aside, \nready to continue the fight.')
+                leftLeg.dismember(-35)
+                return
+            elif target =='right leg':
+                print('Shia tackels you around the waist, and before you can do anything, \nyou feel his teeth sinking into you right thigh.')
+                print('Shia pushes your leg back as far as it will go, \nand gnaws hungrily at it, until the ligament snaps, and your leg goes limp.')
+                print('He shifts his elbow onto your abdomen, and using the leverage gained, \nrips your leg from your torso. \nHe takes a bite, and throws your leg aside, \nready to continue the fight.')
+                rightLeg.dismember(-35)
+                return
+
+
+#Function used to determine the player's move. they can punch or kick a variety of bodyparts
+#kicks to more damage but are less likely to succeed, punches do the opposite
+            #Attacking bodypart should be in the format of 'hand' or 'leg'
+
+#dictionary used in the function. I'm sure there's a better way, but idk how classes work
+nameToSelf = {
+    'left hand' : leftHand,
+    'right hand' : rightHand,
+    'left arm' : leftArm,
+    'right arm' : rightArm,
+    'left foot' : leftFoot,
+    'right foot' : rightFoot,
+    'left leg' : leftLeg,
+    'right leg' : rightLeg
+    }
+    
+def playerMoves(attackingBodypart, target):
+    actualBit = ''
+    Omod = 0
+    Dmod = 0
+    #Determining whether the right or left leg/arm is being used, and if the player has neither, ending the function.
+    if nameToSelf['right ' + attackingBodypart].dismembered:
+        actualBit = nameToSelf['left ' + attackingBodypart]
+
+ 
+
         
 
 a =''
