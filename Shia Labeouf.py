@@ -131,6 +131,8 @@ rightLeg = bodypart('right leg', False, -28)
 
 bodypartList = ['left hand', 'right hand', 'left arm', 'right arm', 'left foot', 'right foot','left leg', 'right leg']
 
+#a variable for the first fight
+extraTurn = False
 
 #The function that determines how shia moves
 
@@ -595,9 +597,38 @@ def playerMoves(attackingBodypart, target):
     else:
         actualBit = nameToSelf['right ' + attackingBodypart]
 
-    if 'hand' or 'foot' in attackingBodypart:
-        Omod -=10
-	Dmod += 10
+    if 'hand' or 'arm' in attackingBodypart:
+        Omod +=10
+	Dmod -= 10
+    else:
+        Omod -= 10
+        Dmod += 10
+
+    	#Attacking the body part in Question
+	#Dictionary of the probabilities of successfully attacking different body parts (out of 120), and the damage shia takes
+	
+	Probabilities = {
+	'head' : [70, 40]
+	'nose' : [80, 30]
+	'eye' : [80, 45]
+	'temple' : [70, 45]
+	'neck' : [80, 35]
+	'shoulder' : [100, 20] 
+	'sternum' : [90, 25]
+	'stomach' : [85, 30]
+	'groin' : [68, 45]
+	'thigh' : [100, 15]
+	'knee' : [90, 28]
+	'shin' : [100, 25]
+	'ankle' : [95, 22]
+	}
+
+	if random.randint(1, 120) < (Probabilities[target][0] + Omod):
+            shiaHealth -= (Probabilities[target][1] + Dmod)
+            return True
+        else:
+            return False
+            
 
  
 
@@ -728,7 +759,7 @@ while a != '!skip':
 
 if bear_ready and ran:
     print('You run desperately to the cottage, \nbut just as you begin to make out the shape of someone sitting inside, \nyour foot catches on a fallen branch.')
-    print('As you fall, you catch a glimpse of something glinting on the ground, \nA breif moment of confusion is your last memory, \nbefore your head crashes down on the plate of a bear trap.')
+    print('As you fall, you catch a glimpse of something glinting on the ground, \nA breif moment of confusion is your last memory, \nas your head crashes down on the plate of a bear trap.')
     death()
 elif bear_ready:
     print('But your leg! AH! It\'s caught in a bear trap!')
@@ -797,18 +828,100 @@ while a != '!skip':
 #COTTAGE
 
 #This bit should only be reached after a survivable encounter with the bear trap
-print('Gnawing off your leg \n(Quiet, quiet.)')
+print('Gnawing off your leg \n(Quiet, quiet)')
+print(' Limping toward the cottage, \n(Quiet, quiet) \nNow you\'re on the doorstep, \nSitting inside, Shia LaBeouf. \nSharpening an ax, \n(Shia LaBeouf)')
+
+print('What will you do now?')
+#While the player hasn't yet started the fight
+turn = 0
+a = ''
+while a != '!skip':
+    if turn > 3:
+        print('Shia gives his axe one last scrape of the whetstone, \nthen stiffens, sensing something is worng. \nYou freeze, and quicker than you can believe, \nShia hefts his axe at your head. \nHe does not miss.')
+        death()
+
+    a = input()
+    
+    if a == 'look':
+        print('You can see Shia inside, completely focused on his axe. \nHis back is to you, if you snuck in now... \nHe wouldn\'t see you.')
+        turn += 1
+        a = input().lower()
+    elif 'run' in a and check_direction(to_list, a):
+        print('Throwing stealth to the wind, \you charge at Shia. \nHe turns, and his eyes widen as he discerns your intention. \nYou collide, and are both sent sprawling, \nhis axe flies out the window, forgotten.')
+        print('Time to fight!')
+        theOdds = ranIn
+        break
+    elif 'walk' in a and check_direction(to_list, a):
+        print('You walk calmly into the cottage, footsteps echoing on the hardwood floor. \nShia stands, and smiles, throwing his axe aside. \nIt\'s time to fight, and you no longer have the element of suprise.')
+        theOdds = walkedIn
+        break
+    elif 'sneak' in a and check_direction(to_list, a):
+        theOdds = snuckIn
+        print('You creep silently into the cottage, crouching behind Shia\'s chair.')
+        turnswaiting += 1
+        a = input().lower()
+        #while the player is undetected/the fight has not started
+        while a != '!skip':
+            if turn > 3:
+                print('Shia gives his axe one last scrape of the whetstone, \nthen stiffens, sensing something is worng. \nYou freeze, and quicker than you can believe, \nShia hefts his axe at your head. \nHe does not miss.')
+                death()
+
+            if a == 'look':
+                print('Now inside the cottage, you look around, finding it confusingly barren. \nIt contains little more than Shia and his axe.')
+                turn += 1
+                a = input().lower()
+            elif 'strangle' in a and check_direction(at_shia, a):
+                shiaHealth -= 60
+                print('You wrap your arms around Shia\'s neck, and squeeze with all you might. \nHe struggles, and eventually shakes you off, massaging his neck.')
+                print('Time to fight!')
+                break
+            elif ('tip' and 'chair') in a:
+                 print('You give Shia\'s chair a mighty heave, sending him sprawling onto the floor. \nNow is your chance to strike!')
+                 extraTurn = True
+                 break
+            elif 'hit' in a:
+                #making querying where the player wants to hit Shia easier
+                while a != '!skip':
+                    if 'head' in a:
+                        print('You lash out against Shia\'s head with your fist. \nHis axe clatters to the ground, and he turns on you, \nready to fight.')
+                        shiaHealth -= 45
+                        break
+                    elif 'temple' in a:
+                        print('Your fist arcs viciously into the side of Shia\'s head. \nHis axe clatters to the ground, and he turns on you, \nready to fight.')
+                        shiaHealth -= 50
+                        break
+                    elif 'neck' in a:
+                        print('You lash out with all you might against the back of Shia\'s neck. \nHe drops his axe and advances on you, more angry than injured.')
+                        shiaHealth -= 35
+                        break
+                    elif 'torso' or 'leg' or 'arm' or 'foot' or 'shoulder' or 'rib' in a:
+                        print('There is a chair in the way, pick another bodypart to attack.')
+                        a = input().lower()
+                    else:
+                        print('Sorry, I don\'t understand.')
+                        a = input().lower()
 
 
-print('Now there is a fight scene that is not yet implemented \nWould you like to (w)in the fight or (d)ie?')
-a = input().lower()
-if a == 'd':
-    death()
-elif a == 'w':
-    None
-else:
-    print('invalid input')
-    a = input().lower()
+#while the fight is ongoing
+a = ''
+while a != '!skip':
+    if playerHealth == 0:
+        print('This, as it turns out, is your deathblow. Better luck next time.')
+        death()
+    elif shiaHealth == 0:
+        print('UNFINISHED TEXT u 1 tho')
+        break
+
+    #Wow, boolean is not a boolean value. How strange...
+    boolean = None
+    attackingBodypart = ''
+
+    if extraTurn == False:
+        shiaMoves()
+    elif extraTurn == True:
+        playerMoves
+    
+    
 
 #----------------------------------------------------
 #WINNING WOODS
