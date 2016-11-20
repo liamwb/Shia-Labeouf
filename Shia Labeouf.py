@@ -565,7 +565,7 @@ def shiaMoves():
 
 #Function used to determine the player's move. they can punch or kick a variety of bodyparts
 #kicks to more damage but are less likely to succeed, punches do the opposite
-            #Attacking bodypart should be in the format of 'hand' or 'leg'
+            #Attacking bodypart should be a string, in the format of 'hand' or 'leg'
 
 #dictionary used in the function. I'm sure there's a better way, but idk how classes work
 nameToSelf = {
@@ -584,8 +584,20 @@ def playerMoves(attackingBodypart, target):
     Omod = 0
     Dmod = 0
     #Determining whether the right or left leg/arm is being used, and if the player has neither, ending the function.
-    if nameToSelf['right ' + attackingBodypart].dismembered:
+    if nameToSelf['right ' + attackingBodypart].dismembered and nameToSelf['left ' + attackingBodypart].dismembered:
+        if attackingBodypart == 'foot':
+            print('You ready yourself to attack, and then catch yourself... \nYou don\'t have any feet, and you\'ve wasted this opportunity.')
+        else:
+            print('You ready yourself to attack, and then catch yourself... \nYou don\'t have any ' + attackingBodypart + 's and you\'ve wasted this opportunity.')
+        return None
+    elif nameToSelf['right ' + attackingBodypart].dismembered:
         actualBit = nameToSelf['left ' + attackingBodypart]
+    else:
+        actualBit = nameToSelf['right ' + attackingBodypart]
+
+    if 'hand' or 'foot' in attackingBodypart:
+        Omod -=10
+	Dmod += 10
 
  
 
