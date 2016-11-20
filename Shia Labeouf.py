@@ -920,8 +920,57 @@ while a != '!skip':
         shiaMoves()
     elif extraTurn == True:
         playerMoves
+
+    if 'punch' and 'nose' in a:
+
+    elif 'kick' and 'nose' in a:
+
+    elif 'punch' and 'eye' in a:
+
+    elif 'kick' and 'eye' in a:
+
+    elif 'punch' and 'temple' in a:
+
+    elif 'kick' and 'temple' in a:
+
+    elif 'punch' and 'neck' in a:
+
+    elif 'kick' and 'neck' in a:
+
+    elif 'punch' and 'shoulder' in a:
+
+    elif 'kick' and 'shoulder' in a:
+
+    elif 'punch' and 'sternum' in a:
+
+    elif 'kick' and 'sternum' in a:
     
-    
+    elif 'punch' and 'stomach' in a:
+
+    elif 'kick' and 'stomach' in a:
+
+    elif 'punch' and ('groin' or 'balls') in a:
+
+    elif 'kick' and ('groin' or 'balls') in a:
+
+    elif 'punch' and 'thigh' in a:
+
+    elif 'kick' and 'thigh' in a:
+
+    elif 'punch' and 'knee' in a:
+
+    elif 'kick' and 'knee' in a:
+
+    elif 'punch' and 'shin' in a:
+
+    elif 'kick' and 'shin' in a:
+
+    elif 'p[unch' and 'ankle' in a:
+
+    elif 'kick' and 'ankle' in a:
+
+    else:
+        print('Please enter a valid input. \nThese include punch/kick [a bodypart], \nas well as some other actions.')
 
 #----------------------------------------------------
 #WINNING WOODS
