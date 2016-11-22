@@ -39,6 +39,8 @@ up_list = ['stand', 'get up',]
 off_trap_list = ['remove', 'get off', 'open', 'take off', 'pry', 'rip off',]
 #things people might say if they wanted to attack something
 fight_list = ['fight', 'attack', 'kill', 'hit',]
+#list of things you would say to get in the cottage
+cottage_list = ['inside', 'in',]
 
 
 #organised as location : [ways you can go from there]
@@ -580,8 +582,27 @@ nameToSelf = {
     'left leg' : leftLeg,
     'right leg' : rightLeg
     }
+
+
+
+Probabilities = {
+'head' : [70, 40],
+'nose' : [80, 30],
+'eye' : [80, 45],
+'temple' : [70, 45],
+'neck' : [80, 35],
+'shoulder' : [100, 20], 
+'sternum' : [90, 25],
+'stomach' : [85, 30],
+'groin' : [68, 45],
+'thigh' : [100, 15],
+'knee' : [90, 28],
+'shin' : [100, 25],
+'ankle' : [95, 22]
+}
     
 def playerMoves(attackingBodypart, target):
+    global shiaHealh
     actualBit = ''
     Omod = 0
     Dmod = 0
@@ -598,36 +619,18 @@ def playerMoves(attackingBodypart, target):
         actualBit = nameToSelf['right ' + attackingBodypart]
 
     if 'hand' or 'arm' in attackingBodypart:
-        Omod +=10
-	Dmod -= 10
+        Omod += 10
+        Dmod += 10
     else:
         Omod -= 10
         Dmod += 10
 
-    	#Attacking the body part in Question
-	#Dictionary of the probabilities of successfully attacking different body parts (out of 120), and the damage shia takes
-	
-	Probabilities = {
-	'head' : [70, 40]
-	'nose' : [80, 30]
-	'eye' : [80, 45]
-	'temple' : [70, 45]
-	'neck' : [80, 35]
-	'shoulder' : [100, 20] 
-	'sternum' : [90, 25]
-	'stomach' : [85, 30]
-	'groin' : [68, 45]
-	'thigh' : [100, 15]
-	'knee' : [90, 28]
-	'shin' : [100, 25]
-	'ankle' : [95, 22]
-	}
-
-	if random.randint(1, 120) < (Probabilities[target][0] + Omod):
-            shiaHealth -= (Probabilities[target][1] + Dmod)
-            return True
-        else:
-            return False
+    if random.randint(1, 120) < (Probabilities[target][0] + Omod):
+        global shiaHealth
+        shiaHealth -= (Probabilities[target][1] + Dmod)
+        return True
+    else:
+        return False
             
 
  
@@ -834,37 +837,42 @@ print(' Limping toward the cottage, \n(Quiet, quiet) \nNow you\'re on the doorst
 print('What will you do now?')
 #While the player hasn't yet started the fight
 turn = 0
-a = ''
+kill = False
+a = input().lower()
 while a != '!skip':
     if turn > 3:
         print('Shia gives his axe one last scrape of the whetstone, \nthen stiffens, sensing something is worng. \nYou freeze, and quicker than you can believe, \nShia hefts his axe at your head. \nHe does not miss.')
         death()
 
-    a = input()
+    if kill == True:
+        break
     
     if a == 'look':
         print('You can see Shia inside, completely focused on his axe. \nHis back is to you, if you snuck in now... \nHe wouldn\'t see you.')
         turn += 1
         a = input().lower()
-    elif 'run' in a and check_direction(to_list, a):
+    elif 'run' in a and (check_direction(cottage_list, a) or ('behind shia' or 'to shia' in a)):
         print('Throwing stealth to the wind, \you charge at Shia. \nHe turns, and his eyes widen as he discerns your intention. \nYou collide, and are both sent sprawling, \nhis axe flies out the window, forgotten.')
         print('Time to fight!')
         theOdds = ranIn
         break
-    elif 'walk' in a and check_direction(to_list, a):
+    elif 'walk' in a and (check_direction(cottage_list, a) or ('behind shia' or 'to shia' in a)):
         print('You walk calmly into the cottage, footsteps echoing on the hardwood floor. \nShia stands, and smiles, throwing his axe aside. \nIt\'s time to fight, and you no longer have the element of suprise.')
         theOdds = walkedIn
         break
-    elif 'sneak' in a and check_direction(to_list, a):
+    elif  a == 'sneak inside' or ('sneak' in a and (check_direction(cottage_list, a) or ('behind shia' or 'to shia' in a))):
         theOdds = snuckIn
         print('You creep silently into the cottage, crouching behind Shia\'s chair.')
-        turnswaiting += 1
+        turn += 1
         a = input().lower()
         #while the player is undetected/the fight has not started
         while a != '!skip':
             if turn > 3:
                 print('Shia gives his axe one last scrape of the whetstone, \nthen stiffens, sensing something is worng. \nYou freeze, and quicker than you can believe, \nShia hefts his axe at your head. \nHe does not miss.')
                 death()
+
+            if kill == True:
+                break
 
             if a == 'look':
                 print('Now inside the cottage, you look around, finding it confusingly barren. \nIt contains little more than Shia and his axe.')
@@ -874,6 +882,7 @@ while a != '!skip':
                 shiaHealth -= 60
                 print('You wrap your arms around Shia\'s neck, and squeeze with all you might. \nHe struggles, and eventually shakes you off, massaging his neck.')
                 print('Time to fight!')
+                kill = True
                 break
             elif ('tip' and 'chair') in a:
                  print('You give Shia\'s chair a mighty heave, sending him sprawling onto the floor. \nNow is your chance to strike!')
@@ -885,21 +894,27 @@ while a != '!skip':
                     if 'head' in a:
                         print('You lash out against Shia\'s head with your fist. \nHis axe clatters to the ground, and he turns on you, \nready to fight.')
                         shiaHealth -= 45
+                        kill = True
                         break
                     elif 'temple' in a:
                         print('Your fist arcs viciously into the side of Shia\'s head. \nHis axe clatters to the ground, and he turns on you, \nready to fight.')
                         shiaHealth -= 50
+                        kill = True
                         break
                     elif 'neck' in a:
                         print('You lash out with all you might against the back of Shia\'s neck. \nHe drops his axe and advances on you, more angry than injured.')
                         shiaHealth -= 35
+                        kill = True
                         break
-                    elif 'torso' or 'leg' or 'arm' or 'foot' or 'shoulder' or 'rib' in a:
+                    elif ('torso' or 'leg' or 'arm' or 'foot' or 'shoulder' or 'rib') in a:
                         print('There is a chair in the way, pick another bodypart to attack.')
                         a = input().lower()
                     else:
-                        print('Sorry, I don\'t understand.')
+                        print('Where do you want to hit him?')
                         a = input().lower()
+    else:
+        print('Please input a valid instruction')
+        continue
 
 
 #while the fight is ongoing
@@ -916,61 +931,303 @@ while a != '!skip':
     boolean = None
     attackingBodypart = ''
 
-    if extraTurn == False:
+    if extraTurn == True:
         shiaMoves()
-    elif extraTurn == True:
-        playerMoves
+        extraTurn == False
+
+    a = input().lower()
 
     if 'punch' and 'nose' in a:
+        boolean = playerMoves('hand', 'nose')
+        if boolean:
+            print('Your fist shoots out towards Shia\'s nose, \nsnapping his head backwards.')
+            continue
+        elif not boolean:
+            print('Your fist shoots out towards Shia\'s nose, \nbut he knocks you fist aside.')
+            continue
+        else:
+            print('You make ready to strike Shia with your fists, \nBut catch yourself before attacking, realising that you don\'t have any hands. \nYou\'ve wasted this opportunity.')
+            continue
 
     elif 'kick' and 'nose' in a:
+        boolean = playerMoves('foot', 'nose')
+        if boolean:
+            print('In one smooth motion, you raise your foot and launch it at Shia\'s nose, \nsnapping his head backwards.')
+            continue
+        elif not boolean:
+            print('YIn one smooth motion, you raise your foot and launch it at Shia\'s nose Shia\'s nose, \nunfortunately, he sidesteps you blow with ease.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
 
     elif 'punch' and 'eye' in a:
+        boolean = playerMoves('hand', 'eye')
+        if boolean:
+            print('Your hand shoots out towards Shia\'s eye, \nyou jab two fingers into each of Shia\'s eyes, and he doubles over in pain.')
+            continue
+        elif not boolean:
+            print('Your fist shoots out at Shia\'s face, \nbut he knocks you fist aside.')
+            continue
+        else:
+            print('You make ready to jab Shia in the eyes, \nBut catch yourself before attacking, realising that you don\'t have any hands. \nYou\'ve wasted this opportunity.')
+            continue
 
     elif 'kick' and 'eye' in a:
+        boolean = playerMoves('foot', 'eye')
+        if boolean:
+            print('In one smooth motion, you raise your foot and launch it at Shia\'s face, \nblackening his eye.')
+            continue
+        elif not boolean:
+            print('In one smooth motion, you raise your foot and launch it at Shia\'s nose Shia\'s nose, \nunfortunately, he sidesteps you blow with ease.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
 
     elif 'punch' and 'temple' in a:
+        boolean = playerMoves('hand', 'temple')
+        if boolean:
+            print('You wind up, and launch your fist at Shia\'s head. \nStriking him square on the temple, and sending him stumbling.')
+            continue
+        elif not boolean:
+            print('Your fist shoots out at Shia\'s face, \nbut he ducks under it.')
+            continue
+        else:
+            print('You wind up to launch your fist at Shia, \nbefore realising that you don\'t have any hands. You\ve wasted this opportunity.')
+            continue
 
     elif 'kick' and 'temple' in a:
+        boolean = playerMoves('foot', 'temple')
+        if boolean:
+            print('You launch your foot at the side of Shia\'s head, \nknocking him to the ground.')
+            continue
+        elif not boolean:
+            print('You launch your foot at the side of Shia\'s head, \nbut he ducks under your blow.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
 
     elif 'punch' and 'neck' in a:
+        boolean = playerMoves('hand', 'neck')
+        if boolean:
+            print('You lash your fist into Shia\'s neck, \nhe coughs, suprised.')
+            continue
+        elif not boolean:
+            print('You lash your fist at Shia\'s neck, \nBut he intercepts your blow with ease.')
+            continue
+        else:
+            print('You wind up to launch your fist at Shia, \nbefore realising that you don\'t have any hands. You\ve wasted this opportunity.')
+            continue
 
     elif 'kick' and 'neck' in a:
-
+        boolean = playerMoves('foot', 'neck')
+        if boolean:
+            print('You snap your foot into Shia\'s neck, \nhe splutters, and staggers backwards.')
+            continue
+        elif not boolean:
+            print('You snap your foot at Shia\'s neck, \nBut he intercepts your blow with ease.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'punch' and 'shoulder' in a:
-
+        boolean = playerMoves('hand', 'shoulder')
+        if boolean:
+            print('You fire your fist into Shia\'s shoulder, \nknocking him side on.')
+            continue
+        elif not boolean:
+            print('You fire your fist at Shia\'s shoulder, \nBut he intercepts your blow with ease.')
+            continue
+        else:
+            print('You prepare to shoot your fist into Shia, \nbut realise that you have no hands. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'kick' and 'shoulder' in a:
-
+        boolean = playerMoves('foot', 'shoulder')
+        if boolean:
+            print('You snap your foot into Shia\'s shoulder, \nthe blow spinning him around like a top.')
+            continue
+        elif not boolean:
+            print('You snap your foot at Shia\'s shoulder, \nBut he intercepts your blow with ease.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'punch' and 'sternum' in a:
-
+        boolean = playerMoves('hand', 'shoulder')
+        if boolean:
+            print('You step forward, sinking your fist into the space just below Shia\'s ribs. \nShia coughs, momentarily winded.')
+            continue
+        elif not boolean:
+            print('You step forward, looking to sink your fist into Shia\'s sternum, \nbut he cuts your strik off at the elbow.')
+            continue
+        else:
+            print('You prepare to sink your fist into Shia, \nbut realise that you have no hands. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'kick' and 'sternum' in a:
-    
+        boolean = playerMoves('foot', 'sternum')
+        if boolean:
+            print('You slam your heel into Shia\'s sternum, \nsending him stumbling backwards.')
+            continue
+        elif not boolean:
+            print('You slam your heel at Shia\'s midriff, \nbut he uses his arm to deflect your blow.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'punch' and 'stomach' in a:
-
+        boolean = playerMoves('hand', 'shoulder')
+        if boolean:
+            print('You step forward, sinking your fist into Shia\'s stomach. \nShia double over, momentarily winded.')
+            continue
+        elif not boolean:
+            print('You step forward, looking to sink your fist into Shia\'s stomach, \nbut he cuts your strik off at the elbow.')
+            continue
+        else:
+            print('You prepare to sink your fist into Shia, \nbut realise that you have no hands. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'kick' and 'stomach' in a:
-
+        boolean = playerMoves('foot', 'stomach')
+        if boolean:
+            print('You slam your heel into Shia\'s stomach, \nsending him stumbling backwards.')
+            continue
+        elif not boolean:
+            print('You slam your heel at Shia\'s midriff, \nbut he uses his arm to deflect your blow.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'punch' and ('groin' or 'balls') in a:
-
+        boolean = playerMoves('hand', 'groin')
+        if boolean:
+            print('You step forward, sinking your fist into Shia\'s groin. \nShia double over, stunned.')
+            continue
+        elif not boolean:
+            print('You step forward, looking to sink your fist into Shia\'s groin, \nbut he cuts your strik off at the elbow.')
+            continue
+        else:
+            print('You prepare to sink your fist into Shia, \nbut realise that you have no hands. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'kick' and ('groin' or 'balls') in a:
-
+        boolean = playerMoves('foot', 'groin')
+        if boolean:
+            print('You sink your foot up into Shia\'s groin, \nhe almost collapses, barely managing to remain upright.')
+            continue
+        elif not boolean:
+            print('You attempt to sink your foot up into Shia\'s groin, \nbut he scampers desperately out of the way.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'punch' and 'thigh' in a:
-
+        boolean = playerMoves('hand', 'thigh')
+        if boolean:
+            print('You step sharply downards, cutting into Shia\'s thigh with your fist.')
+            continue
+        elif not boolean:
+            print('You step sharply downwards, attempting to strike at Shia\'s thigh, \nonly to have your punch cut off at the wrist.')
+            continue
+        else:
+            print('You prepare to slam your fist into Shia, \nonly to realise that you have no hands. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'kick' and 'thigh' in a:
-
+        boolean = playerMoves('foot', 'thigh')
+        if boolean:
+            print('You raise you leg, and stamp down on Shia\'s thigh, pushing him down to one knee.')
+            continue
+        elif not boolean:
+            print('You raise you leg, and stamp down towards Shia\'s thigh, \nbut Shia moves, and your foot comes down on air.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'punch' and 'knee' in a:
-
+        boolean = playerMoves('arm', 'knee')
+        if boolean:
+            print('You plant your elbow into the side of Shia\'s knee, sending him stumbling.')
+            continue
+        elif not boolean:
+            print('You step sharply downwards, attempting to strike at Shia\'s thigh, \nonly to have your punch cut off at the wrist.')
+            continue
+        else:
+            print('You prepare to slam your fist into Shia, \nonly to realise that you have no hands. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'kick' and 'knee' in a:
+        boolean = playerMoves('foot', 'knee')
+        if boolean:
+            print('You whip your foot around into the side of Shia\'s knee, \nand are rewarded by a shriek of pain.')
+            continue
+        elif not boolean:
+            print('You whip your foot around at the side of Shia\'s knee, but he jumps, clearing your leg.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
 
     elif 'punch' and 'shin' in a:
-
+        boolean = playerMoves('hand', 'shin')
+        if boolean:
+            print('You plant your elbow into the side of Shia\'s knee, sending him stumbling.')
+            continue
+        elif not boolean:
+            print('You step sharply downwards, attempting to strike at Shia\'s thigh, \nonly to have your punch cut off at the wrist.')
+            continue
+        else:
+            print('You prepare to slam your fist into Shia, \nonly to realise that you have no hands. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'kick' and 'shin' in a:
-
-    elif 'p[unch' and 'ankle' in a:
-
+        boolean = playerMoves('foot', 'shin')
+        if boolean:
+            print('You drive your foot into Shia\'s shin, \nleaving him favouring his other leg..')
+            continue
+        elif not boolean:
+            print('You drive your foot towards Shia\'s shin, \nbut he knocks the blow aside.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
+        
+    elif 'punch' and 'ankle' in a:
+        boolean = playerMoves('hand', 'ankle')
+        if boolean:
+            print('You grab Shia\'s anke, flipping him onto his head.')
+            continue
+        elif not boolean:
+            print('You go to grab Shia\'s ankle, and are rewarded with a sharp stamp on the wrist.')
+            continue
+        else:
+            print('You prepare to slam your fist into Shia, \nonly to realise that you have no hands. \nYou\'ve wasted this opportunity.')
+            continue
+        
     elif 'kick' and 'ankle' in a:
-
-    else:
+        boolean = playerMoves('foot', 'thigh')
+        if boolean:
+            print('You raise you leg, and stamp down on Shia\'s ankle, \nsending him hopping away.')
+            continue
+        elif not boolean:
+            print('You raise you leg, and stamp down towards Shia\'s ankle, \nbut only make contact with the floor.')
+            continue
+        else:
+            print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
+            continue
+    else:        
         print('Please enter a valid input. \nThese include punch/kick [a bodypart], \nas well as some other actions.')
+        #just reusing the variable
+        extraTurn = True
 
 #----------------------------------------------------
 #WINNING WOODS
