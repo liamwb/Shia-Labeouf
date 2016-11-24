@@ -1,7 +1,7 @@
 import sys
 import random
 
-print('Welcome to the Shia Lebeouf experience. \nFor help type \'help\', or to begin type \'go!\'')
+print('Welcome to the Shia Labeouf experience. \nFor help type \'help\', or to begin type \'go!\'')
 
 #what happens when you die
 def death():
@@ -24,7 +24,7 @@ def running_for_your_life():
     print('------ \n------')
 
 #a list of words that relate to shia
-at_shia = ['him', 'shia', 'shia lebeouf']
+at_shia = ['him', 'shia', 'shia labeouf']
 #a list of things people might use to go *to* something
 to_list = ['to', 'towards', 'toward', 'at',]
 #a list of things people might use to move *away* from something
@@ -50,6 +50,8 @@ def help_():
     print('Type \'look\' to look around at your surroundings.')
     print('Type \'walk to [a place]\' to walk there, or \'run\' to run there')
     print('Typing \'sneak to [a place]\' will have you slowly move there, without alerting enemies.')
+    print('During a fight, type punch or kick to determine method of attack, \nfollowed by the bodypart you wish to target.')
+    print('Kicks do more damage than punches, but you have a lower chance of landing them.')
     print('Typing \'go\' will begin your adventure!')
 
 #a function that checks if the player is walking in a given direction (eg. to something)
@@ -363,6 +365,9 @@ def shiaMoves():
                             print('You attempt to plant your foot over Shia\'s quickly moving leg, \nbut you mistime it slightly, and the impact shocks you like a hammer blow')
                             playerHealth -= 15
                             return
+                        else:
+                            print('You plant your foot over Shia\'s leg, pinning it to the ground.')
+                            return
                 elif a == 'dodge':
                     #2/3 chance of failure to dodge
                     if random.randint(1, 120) < theOdds[6]:
@@ -643,9 +648,10 @@ while a != '!skip':
     if 'help' in a:
         help_()
         a = input()
+        continue
     elif 'go' in a:
         print('------')
-        print('You\'re walking in the woods,\nthere\'s no one around and your phone is dead. \nout of the corner of your eye you spot him\n... \n... \nShia Lebeouf.')
+        print('You\'re walking in the woods,\nthere\'s no one around and your phone is dead. \nout of the corner of your eye you spot him\n... \n... \nShia Labeouf.')
         break
     else:
         print('type something else bub')
@@ -699,6 +705,8 @@ while a != '!skip':
         elif check_direction(to_list, a) and check_direction(at_shia, a):
             print('As you approach Shia, he opens his arms and embraces you. \nYou feel safe for a second, until you feel a knife sliding through your ribs, \nand his teeth sink into your neck.')
             death()
+        else:
+            print('I don\'t understand where you want to run, \nwhat did you want to do?')
     #if they try and attack
     elif check_direction(fight_list, a):
         print('UNFINISHED (you try to fight shia and die)')
@@ -706,6 +714,7 @@ while a != '!skip':
     elif a == 'help':
         help()
         a = input().lower()
+        continue
     else:
         print('Sorry, what? (I don\'t understand)')
         a = input().lower()
@@ -756,6 +765,7 @@ while a != '!skip':
         break
     elif a == 'help':
         help_()
+        a = input().lower()
     else:
         print('input not understood')
         a = input().lower()
@@ -766,9 +776,7 @@ if bear_ready and ran:
     death()
 elif bear_ready:
     print('But your leg! AH! It\'s caught in a bear trap!')
-else:
-    print('liam u done fuqed up')
-    a = input().lower()
+
 
 #----------------------------------------------------
 #BEAR WOODS
@@ -832,10 +840,11 @@ while a != '!skip':
 
 #This bit should only be reached after a survivable encounter with the bear trap
 print('Gnawing off your leg \n(Quiet, quiet)')
-print(' Limping toward the cottage, \n(Quiet, quiet) \nNow you\'re on the doorstep, \nSitting inside, Shia LaBeouf. \nSharpening an ax, \n(Shia LaBeouf)')
+print('Limping toward the cottage, \n(Quiet, quiet) \nNow you\'re on the doorstep, \nSitting inside, Shia LaBeouf. \nSharpening an axe, \n(Shia LaBeouf)')
 
 print('What will you do now?')
 #While the player hasn't yet started the fight
+extraTurn = False
 turn = 0
 kill = False
 a = input().lower()
@@ -929,15 +938,16 @@ while a != '!skip':
 
     #Wow, boolean is not a boolean value. How strange...
     boolean = None
-    attackingBodypart = ''
 
-    if extraTurn == True:
+    if extraTurn == False:
         shiaMoves()
-        extraTurn == False
+    elif extraTurn == True:
+        extraTurn = False
+    
 
     a = input().lower()
 
-    if 'punch' and 'nose' in a:
+    if 'punch' in a and 'nose' in a:
         boolean = playerMoves('hand', 'nose')
         if boolean:
             print('Your fist shoots out towards Shia\'s nose, \nsnapping his head backwards.')
@@ -949,7 +959,7 @@ while a != '!skip':
             print('You make ready to strike Shia with your fists, \nBut catch yourself before attacking, realising that you don\'t have any hands. \nYou\'ve wasted this opportunity.')
             continue
 
-    elif 'kick' and 'nose' in a:
+    elif 'kick' in a and 'nose' in a:
         boolean = playerMoves('foot', 'nose')
         if boolean:
             print('In one smooth motion, you raise your foot and launch it at Shia\'s nose, \nsnapping his head backwards.')
@@ -961,7 +971,7 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
 
-    elif 'punch' and 'eye' in a:
+    elif 'punch' in a and 'eye' in a:
         boolean = playerMoves('hand', 'eye')
         if boolean:
             print('Your hand shoots out towards Shia\'s eye, \nyou jab two fingers into each of Shia\'s eyes, and he doubles over in pain.')
@@ -973,7 +983,7 @@ while a != '!skip':
             print('You make ready to jab Shia in the eyes, \nBut catch yourself before attacking, realising that you don\'t have any hands. \nYou\'ve wasted this opportunity.')
             continue
 
-    elif 'kick' and 'eye' in a:
+    elif 'kick' in a and 'eye' in a:
         boolean = playerMoves('foot', 'eye')
         if boolean:
             print('In one smooth motion, you raise your foot and launch it at Shia\'s face, \nblackening his eye.')
@@ -985,7 +995,7 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
 
-    elif 'punch' and 'temple' in a:
+    elif 'punch' in a and 'temple' in a:
         boolean = playerMoves('hand', 'temple')
         if boolean:
             print('You wind up, and launch your fist at Shia\'s head. \nStriking him square on the temple, and sending him stumbling.')
@@ -997,7 +1007,7 @@ while a != '!skip':
             print('You wind up to launch your fist at Shia, \nbefore realising that you don\'t have any hands. You\ve wasted this opportunity.')
             continue
 
-    elif 'kick' and 'temple' in a:
+    elif 'kick' in a and 'temple' in a:
         boolean = playerMoves('foot', 'temple')
         if boolean:
             print('You launch your foot at the side of Shia\'s head, \nknocking him to the ground.')
@@ -1009,7 +1019,7 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
 
-    elif 'punch' and 'neck' in a:
+    elif 'punch' in a and 'neck' in a:
         boolean = playerMoves('hand', 'neck')
         if boolean:
             print('You lash your fist into Shia\'s neck, \nhe coughs, suprised.')
@@ -1021,7 +1031,7 @@ while a != '!skip':
             print('You wind up to launch your fist at Shia, \nbefore realising that you don\'t have any hands. You\ve wasted this opportunity.')
             continue
 
-    elif 'kick' and 'neck' in a:
+    elif 'kick' in a and 'neck' in a:
         boolean = playerMoves('foot', 'neck')
         if boolean:
             print('You snap your foot into Shia\'s neck, \nhe splutters, and staggers backwards.')
@@ -1033,7 +1043,7 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'punch' and 'shoulder' in a:
+    elif 'punch' in a and 'shoulder' in a:
         boolean = playerMoves('hand', 'shoulder')
         if boolean:
             print('You fire your fist into Shia\'s shoulder, \nknocking him side on.')
@@ -1045,7 +1055,7 @@ while a != '!skip':
             print('You prepare to shoot your fist into Shia, \nbut realise that you have no hands. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'kick' and 'shoulder' in a:
+    elif 'kick' in a and 'shoulder' in a:
         boolean = playerMoves('foot', 'shoulder')
         if boolean:
             print('You snap your foot into Shia\'s shoulder, \nthe blow spinning him around like a top.')
@@ -1057,19 +1067,19 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'punch' and 'sternum' in a:
+    elif 'punch' in a and 'sternum' in a:
         boolean = playerMoves('hand', 'shoulder')
         if boolean:
             print('You step forward, sinking your fist into the space just below Shia\'s ribs. \nShia coughs, momentarily winded.')
             continue
         elif not boolean:
-            print('You step forward, looking to sink your fist into Shia\'s sternum, \nbut he cuts your strik off at the elbow.')
+            print('You step forward, looking to sink your fist into Shia\'s sternum, \nbut he cuts your strike off at the elbow.')
             continue
         else:
             print('You prepare to sink your fist into Shia, \nbut realise that you have no hands. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'kick' and 'sternum' in a:
+    elif 'kick' in a and 'sternum' in a:
         boolean = playerMoves('foot', 'sternum')
         if boolean:
             print('You slam your heel into Shia\'s sternum, \nsending him stumbling backwards.')
@@ -1081,19 +1091,19 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'punch' and 'stomach' in a:
+    elif 'punch' in a and 'stomach' in a:
         boolean = playerMoves('hand', 'shoulder')
         if boolean:
             print('You step forward, sinking your fist into Shia\'s stomach. \nShia double over, momentarily winded.')
             continue
         elif not boolean:
-            print('You step forward, looking to sink your fist into Shia\'s stomach, \nbut he cuts your strik off at the elbow.')
+            print('You step forward, looking to sink your fist into Shia\'s stomach, \nbut he cuts your strike off at the elbow.')
             continue
         else:
             print('You prepare to sink your fist into Shia, \nbut realise that you have no hands. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'kick' and 'stomach' in a:
+    elif 'kick' in a and 'stomach' in a:
         boolean = playerMoves('foot', 'stomach')
         if boolean:
             print('You slam your heel into Shia\'s stomach, \nsending him stumbling backwards.')
@@ -1105,19 +1115,19 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'punch' and ('groin' or 'balls') in a:
+    elif 'punch' in a and ('groin' or 'balls') in a:
         boolean = playerMoves('hand', 'groin')
         if boolean:
             print('You step forward, sinking your fist into Shia\'s groin. \nShia double over, stunned.')
             continue
         elif not boolean:
-            print('You step forward, looking to sink your fist into Shia\'s groin, \nbut he cuts your strik off at the elbow.')
+            print('You step forward, looking to sink your fist into Shia\'s groin, \nbut he cuts your strike off at the elbow.')
             continue
         else:
             print('You prepare to sink your fist into Shia, \nbut realise that you have no hands. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'kick' and ('groin' or 'balls') in a:
+    elif 'kick' in a and ('groin' or 'balls') in a:
         boolean = playerMoves('foot', 'groin')
         if boolean:
             print('You sink your foot up into Shia\'s groin, \nhe almost collapses, barely managing to remain upright.')
@@ -1129,7 +1139,7 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'punch' and 'thigh' in a:
+    elif 'punch' in a and 'thigh' in a:
         boolean = playerMoves('hand', 'thigh')
         if boolean:
             print('You step sharply downards, cutting into Shia\'s thigh with your fist.')
@@ -1141,7 +1151,7 @@ while a != '!skip':
             print('You prepare to slam your fist into Shia, \nonly to realise that you have no hands. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'kick' and 'thigh' in a:
+    elif 'kick' in a and 'thigh' in a:
         boolean = playerMoves('foot', 'thigh')
         if boolean:
             print('You raise you leg, and stamp down on Shia\'s thigh, pushing him down to one knee.')
@@ -1153,7 +1163,7 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'punch' and 'knee' in a:
+    elif 'punch' in a and 'knee' in a:
         boolean = playerMoves('arm', 'knee')
         if boolean:
             print('You plant your elbow into the side of Shia\'s knee, sending him stumbling.')
@@ -1165,7 +1175,7 @@ while a != '!skip':
             print('You prepare to slam your fist into Shia, \nonly to realise that you have no hands. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'kick' and 'knee' in a:
+    elif 'kick' in a and 'knee' in a:
         boolean = playerMoves('foot', 'knee')
         if boolean:
             print('You whip your foot around into the side of Shia\'s knee, \nand are rewarded by a shriek of pain.')
@@ -1177,7 +1187,7 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
 
-    elif 'punch' and 'shin' in a:
+    elif 'punch' in a and 'shin' in a:
         boolean = playerMoves('hand', 'shin')
         if boolean:
             print('You plant your elbow into the side of Shia\'s knee, sending him stumbling.')
@@ -1189,7 +1199,7 @@ while a != '!skip':
             print('You prepare to slam your fist into Shia, \nonly to realise that you have no hands. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'kick' and 'shin' in a:
+    elif 'kick' in a and 'shin' in a:
         boolean = playerMoves('foot', 'shin')
         if boolean:
             print('You drive your foot into Shia\'s shin, \nleaving him favouring his other leg..')
@@ -1201,7 +1211,7 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'punch' and 'ankle' in a:
+    elif 'punch' in a and 'ankle' in a:
         boolean = playerMoves('hand', 'ankle')
         if boolean:
             print('You grab Shia\'s anke, flipping him onto his head.')
@@ -1213,7 +1223,7 @@ while a != '!skip':
             print('You prepare to slam your fist into Shia, \nonly to realise that you have no hands. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'kick' and 'ankle' in a:
+    elif 'kick' in a and 'ankle' in a:
         boolean = playerMoves('foot', 'thigh')
         if boolean:
             print('You raise you leg, and stamp down on Shia\'s ankle, \nsending him hopping away.')
@@ -1224,9 +1234,13 @@ while a != '!skip':
         else:
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
-    else:        
-        print('Please enter a valid input. \nThese include punch/kick [a bodypart], \nas well as some other actions.')
+    elif a == 'help':
         #just reusing the variable
+        help_()
+        extraTurn = True
+        a = input().lower()
+    else:        
+        print('Please enter a valid input (punch or kick [a bodypart])')
         extraTurn = True
 
 #----------------------------------------------------
