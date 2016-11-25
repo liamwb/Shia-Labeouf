@@ -653,6 +653,7 @@ while a != '!skip':
         break
     else:
         print('type something else bub')
+        a = input().lower()
 
 
 
@@ -709,6 +710,7 @@ while a != '!skip':
     #if they try and attack
     elif check_direction(fight_list, a):
         print('UNFINISHED (you try to fight shia and die)')
+        death()
     #if they want help
     elif a == 'help':
         help()
@@ -750,9 +752,9 @@ while a != '!skip':
         bear_ready = True
         break
     #moving away from the light, or in any direction other than south
-    elif (('walk' or 'sneak' or 'run') in a) and ((check_direction(away_list, a) and ('light' or 'south' in a)) or ('north' in a) or ('west' in a ) or ('east' in a):
+    elif (('walk' or 'sneak' or 'run') in a) and ((check_direction(away_list, a) and ('light' or 'south' in a)) or ('north' in a) or ('west' in a ) or ('east' in a)):
         print('You turn away from the light, perhaps righfully distrustful of it. \nAs you walk away, the groud seems to move beneath you, \ntwisting and turning in strange and unnatural ways.')
-        
+        print('You look around wildly to find yourself in the same place once again. \nWhat to do now?')
         a = input().lower()
     #running towards the light, or south
     elif (('run' in a) and check_direction(to_list, a) and ('light' or 'south' in a)) or (a == 'run south'):
