@@ -751,7 +751,7 @@ while a != '!skip':
         print('The definition of insanity is doing the same thing over and over again, but expecting different results')
         a = input().lower()
     #walking towards the light, or south
-    elif (('walk' in a) and check_direction(to_list, a) and ('light' or 'south' in a)) or (a == 'walk south'):
+    elif (('walk' in a) and check_direction(to_list, a) and ('light' in a or 'south' in a)) or (a == 'walk south'):
         print('you walk towards the light... \nIt gradually grows brighter, \nand you can begin to make out the shape of a cottage \nYou move stealthily toward it...')
         bear_ready = True
         break
