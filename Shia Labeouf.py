@@ -749,9 +749,10 @@ while a != '!skip':
         print('you walk towards the light... \nIt gradually grows brighter, \nand you can begin to make out the shape of a cottage \nYou move stealthily toward it...')
         bear_ready = True
         break
-    #moving away from the light, or in any direction other than south (UNFINISHED!!!)
-    elif ((('walk' or 'sneak' or 'run') in a) and check_direction(away_list, a) and ('light' or 'south' in a)):
-        print('UNFINISHED idk whether you just get lost or what but for now just have another go')
+    #moving away from the light, or in any direction other than south
+    elif (('walk' or 'sneak' or 'run') in a) and ((check_direction(away_list, a) and ('light' or 'south' in a)) or ('north' in a) or ('west' in a ) or ('east' in a):
+        print('You turn away from the light, perhaps righfully distrustful of it. \nAs you walk away, the groud seems to move beneath you, \ntwisting and turning in strange and unnatural ways.')
+        
         a = input().lower()
     #running towards the light, or south
     elif (('run' in a) and check_direction(to_list, a) and ('light' or 'south' in a)) or (a == 'run south'):
@@ -951,10 +952,10 @@ while a != '!skip':
 #while the fight is ongoing
 a = ''
 while a != '!skip':
-    if playerHealth == 0:
+    if playerHealth <= 0:
         print('This, as it turns out, is your deathblow. Better luck next time.')
         death()
-    elif shiaHealth == 0:
+    elif shiaHealth <= 0:
         print('------ \n------ \nFighting for your life with Shia Labeouf, \nWrestling a knife from Shia Labeouf, \nStab it in his kidney. \nSafe at last from Shia Labeouf.')
         print('You limp into the dark woods, \nBlood oozing from your stump leg. \nYou\'ve won. You have beaten Shia Labeouf.')
         break
@@ -1263,7 +1264,7 @@ while a != '!skip':
         extraTurn = True
         a = input().lower()
     else:        
-        print('Please enter a valid input (punch or kick [a bodypart])')
+        print('Please enter a valid input (<punch or kick> <a bodypart>)')
         extraTurn = True
 
 
