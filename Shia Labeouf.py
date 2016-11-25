@@ -28,7 +28,7 @@ at_shia = ['him', 'shia', 'shia labeouf']
 #a list of things people might use to go *to* something
 to_list = ['to', 'towards', 'toward', 'at',]
 #a list of things people might use to move *away* from something
-away_list = ['away', 'from', 'back']
+away_list = ['away', 'from', 'back', 'out']
 #a list of things people might say if they wanted to eat something
 eat_list = ['gnaw', 'eat', 'chew', 'devour',]
 #a list of things people might say to refer to something of theirs in the first person
@@ -67,8 +67,8 @@ def check_direction(list, string):
 
 #-------
 #health values for fight one
-shiaHealth = 150
-playerHealth = 100
+shiaHealth = 350
+playerHealth = 300
 
 # The adjusted odds of things happening depending on how the player enters the cottage
 #in order, the odds go: 1/2, 1/3, 1/4, 1/6, 1/10, 1/12, 2/3, 9/10
@@ -788,12 +788,11 @@ elif bear_ready:
     
 bear_survived = False
 
-#TE is turns elapsed. When it reaches 6, the player dies of blood loss. If the player escapes the bear trap, then bear_survived is set to true.
+#TE is turns elapsed. When it reaches 5, the player dies of blood loss. If the player escapes the bear trap, then bear_survived is set to true.
 TE = -1
 
-te = ['Your glance at your leg, and quickly avert your eyes, \nfighting the urge to throw up.',
+te = ['Your glance at your left leg, and quickly avert your eyes, \nfighting the urge to throw up.',
       'You watch, mesmerised for a moment, \nas the blood continues to pump from your leg.',
-      'Your leg continues to bleed, \nyour hands feel numb, but at least the pain is beginning to receed.',
       'The ground around you is stained red, \nthe same colour as the horizon, stained by the dying sun.',
       'You notice that the blood flowing from your leg seems to have slowed, \nyou stare into the gory mouth of the bear trap and doze off for a minute, \nwaking with a start.',
       'Your body is growing number by the minute. \nYou know that if you do not escape the trap soon, you will perish.',
@@ -805,13 +804,14 @@ te = ['Your glance at your leg, and quickly avert your eyes, \nfighting the urge
 a = input().lower()
 while a != '!skip':
     #the death condition
-    if TE > 4:
+    if TE > 3:
         print('You attempt to move, but your head spins and you fall back, nauseated. \nYou can feel your strength slipping away, as the world slowly fades into black around you.')
         death()
     #The player decides to gnaw/eat their leg off, this is the 'correct' path
     elif ('leg' in a) and check_direction(eat_list, a):
         print('Gnawing off your leg \n(Quiet, quiet)')
         print('Limping toward the cottage, \n(Quiet, quiet) \nNow you\'re on the doorstep, \nSitting inside, Shia LaBeouf. \nSharpening an axe, \n(Shia LaBeouf)')
+        leftLeg.dismember(0)
         break
     #player tries to stand up
     elif a in up_list:
@@ -836,6 +836,10 @@ while a != '!skip':
         print('You begin to drag yourself along the rough forest floor, \nThe heavy bear trap catches on a root, \nand the trap bites into your leg anew, \nas even more blood gushes out.')
         TE += 2
         print(te[TE])
+        a = input().lower()
+    #help
+    elif a == 'help':
+        help_()
         a = input().lower()
     else:
         print('you wut mate (i dont understand)')
@@ -864,10 +868,12 @@ while a != '!skip':
         print('You can see Shia inside, completely focused on his axe. \nHis back is to you, if you snuck in now... \nHe wouldn\'t see you.')
         turn += 1
         a = input().lower()
+    #If they try to do something from the doorway
     elif check_direction(fight_list, a) and check_direction(at_shia, a):
         print('You won\'t be able to do that from the doorway will you?')
         a = input().lower()
-    elif 'run' in a and (check_direction(cottage_list, a) or ('behind shia' or 'to shia' in a)):
+    #Running at shia
+    elif 'run' in a and (check_direction(cottage_list, a) or (check_direction(at_shia, a))):
         print('Throwing stealth to the wind, \you charge at Shia. \nHe turns, and his eyes widen as he discerns your intention. \nYou collide, and are both sent sprawling, \nhis axe flies out the window, forgotten.')
         print('Time to fight!')
         theOdds = ranIn
@@ -894,12 +900,16 @@ while a != '!skip':
                 print('Now inside the cottage, you look around, finding it confusingly barren. \nIt contains little more than Shia and his axe.')
                 turn += 1
                 a = input().lower()
-            elif 'strangle' in a and check_direction(at_shia, a):
+            elif ('strangle' in a or 'choke' in a) and check_direction(at_shia, a):
                 shiaHealth -= 60
                 print('You wrap your arms around Shia\'s neck, and squeeze with all you might. \nHe struggles, and eventually shakes you off, massaging his neck.')
                 print('Time to fight!')
                 kill = True
                 break
+            #If they try to leave the cottage
+            elif check_direction(away_list, a):
+                print('You turn, suddenly overcome by panic you sprint, crashng through the underbrush, \nJust as Shia\'s axe crashes into you head.')
+                death()
             elif ('tip' and 'chair') in a:
                  print('You give Shia\'s chair a mighty heave, sending him sprawling onto the floor. \nNow is your chance to strike!')
                  extraTurn = True
@@ -926,7 +936,7 @@ while a != '!skip':
                         print('There is a chair in the way, pick another bodypart to attack.')
                         a = input().lower()
                     else:
-                        print('Where do you want to hit him?')
+                        print('You can\'t hit that.')
                         a = input().lower()
     else:
         print('Please input a valid instruction')
@@ -1123,7 +1133,7 @@ while a != '!skip':
             print('You make ready to strike Shia with your foot, \nBut catch yourself before attacking, realising that you don\'t have any feet. \nYou\'ve wasted this opportunity.')
             continue
         
-    elif 'punch' in a and ('groin' or 'balls') in a:
+    elif 'punch' in a and ('groin' in a or 'balls' in a):
         boolean = playerMoves('hand', 'groin')
         if boolean:
             print('You step forward, sinking your fist into Shia\'s groin. \nShia double over, stunned.')
