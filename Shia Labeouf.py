@@ -683,7 +683,7 @@ while a != '!skip':
         death()
     #walk away from shia, die
     elif 'walk' in a:
-        print('You turn and walk hurridly away from Shia, Struggling to keep up the pretence of calm.')
+        print('You turn and walk hurriedly away from Shia, Struggling to keep up the pretence of calm.')
         print('You can hear his footsteps growing louder behind you, \nIn your haste you trip on a fallen brach, falling at Shia\'s feet.')
         print('His knee falls heavily into the small of your back, jarring your spine. \nYou feel his teeth on the back of your neck, \nThen lose conciousness as your spinal cord is ripped from beneath your skin.')
         death()
@@ -779,7 +779,7 @@ while a != '!skip':
 
 if bear_ready and ran:
     print('You run desperately to the cottage, \nbut just as you begin to make out the shape of someone sitting inside, \nyour foot catches on a fallen branch.')
-    print('As you fall, you catch a glimpse of something glinting on the ground, \nA breif moment of confusion is your last memory, \nas your head crashes down on the plate of a bear trap.')
+    print('As you fall, you catch a glimpse of something glinting on the ground, \nA brief moment of confusion is your last memory, \nas your head crashes down on the plate of a bear trap.')
     death()
 elif bear_ready:
     print('But your leg! AH! It\'s caught in a bear trap!')
@@ -815,6 +815,12 @@ while a != '!skip':
         print('Limping toward the cottage, \n(Quiet, quiet) \nNow you\'re on the doorstep, \nSitting inside, Shia LaBeouf. \nSharpening an axe, \n(Shia LaBeouf)')
         leftLeg.dismember(0)
         break
+    #player tries to eat the bear trap, which is apparently a thing that people want to do
+    elif ('trap' in a) and check_direction(eat_list, a):
+        print('For some reason, you attempt to eat the metal bear trap. \nStrangely enough, you do not succeed.')
+        TE += 1
+        print(te[TE])
+        a = input().lower()
     #player tries to stand up
     elif a in up_list:
         print('You attempt to stand, but your bad leg buckles, \nand the weight of the bear trap pulls you down to earth')
