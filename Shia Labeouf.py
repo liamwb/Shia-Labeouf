@@ -708,7 +708,7 @@ while a != '!skip':
         else:
             print('I don\'t understand where you want to run, \nwhat did you want to do?')
     #if they try and attack
-    elif check_direction(fight_list, a):
+    elif check_direction(fight_list, a) and check_direction(at_shia, a):
         print('UNFINISHED (you try to fight shia and die)')
         death()
     #if they want help
