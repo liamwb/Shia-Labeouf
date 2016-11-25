@@ -387,7 +387,7 @@ def shiaMoves():
             while True:
                 a = input().lower()
                 if a == 'block':
-                    if rightArm.dismembered and leftArm.dismebered:
+                    if rightArm.dismembered and leftArm.dismembered:
                         print('You go to knock Shia\'s head aside, but realise too late that you don\'t have any arms')
                         playerHealth -= 5
                         return
@@ -415,10 +415,10 @@ def shiaMoves():
             while True:
                 a = input().lower()
                 if a == 'block':
-                    if rightHand.dismembered or leftHand.dismebered:
+                    if rightHand.dismembered or leftHand.dismembered:
                         print('You desperately bring your hands down to defend yourself, \nrealising only as Shia\'s foot crashes into your stump that one of them is missing.')
                         playerHealth -= 35
-                    elif rightHand.dismembered and leftHand.dismebered:
+                    elif rightHand.dismembered and leftHand.dismembered:
                         print('You desperately bring your hands down to defend yourself, \nrealising only as Shia\'s foot crashes into your stump arms that you have none.')
                         playerHealth -= 35
                         return
@@ -446,7 +446,7 @@ def shiaMoves():
             while True:
                 a = input().lower()
                 if a == 'block':
-                    if rightArm.dismembered and leftArm.dismebered:
+                    if rightArm.dismembered and leftArm.dismembered:
                         print('You prepare to brace against Shia\'s oncoming shoulder, but realise you don\'t have any arms')
                         playerHealth -= 20
                         return
@@ -477,7 +477,7 @@ def shiaMoves():
             while True:
                 a = input().lower()
                 if a == 'block':
-                    if rightHand.dismembered and leftHand.dismebered:
+                    if rightHand.dismembered and leftHand.dismembered:
                         print('You step inside Shia\'s flailing arms, and go to bring your hands up to his throat, \nbefore realising you have none.')
                         playerHealth -= 20
                         return
@@ -714,7 +714,9 @@ while a != '!skip':
     elif a == 'help':
         help()
         a = input().lower()
-        continue
+    elif a == 'walk' or a == 'run' or a == 'sneak':
+        print('Please use the input format: <walk/sneak/run> <destination>')
+        a = input().lower()
     else:
         print('Sorry, what? (I don\'t understand)')
         a = input().lower()
@@ -736,7 +738,7 @@ a = input().lower()
 while a != '!skip':
     #first look
     if 'look' in a and looked == False:
-        print('You scan your surroundings... \nThe woods around you feel dark and forboding \nTo the west you can barely spot the last rays of the sun, \nas it slips beneath the horizon, \nBut to the South! A faint light shines')
+        print('You scan your surroundings... \nThe woods around you feel dark and forboding \nTo the west you can barely spot the last rays of the sun, \nas it slips beneath the horizon, \nBut to the South! A faint light shines.')
         looked = True
         a = input().lower()
     #second look
@@ -766,6 +768,9 @@ while a != '!skip':
     elif a == 'help':
         help_()
         a = input().lower()
+    elif a == 'walk' or a == 'run' or a == 'sneak':
+        print('Please use the input format: <walk/sneak/run> <destination>')
+        a = input().lower()
     else:
         print('input not understood')
         a = input().lower()
@@ -792,7 +797,7 @@ te = ['Your glance at your leg, and quickly avert your eyes, \nfighting the urge
       'The ground around you is stained red, \nthe same colour as the horizon, stained by the dying sun.',
       'You notice that the blood flowing from your leg seems to have slowed, \nyou stare into the gory mouth of the bear trap and doze off for a minute, \nwaking with a start.',
       'Your body is growing number by the minute. \nYou know that if you do not escape the trap soon, you will perish.',
-      '']
+      'You attempt to move, but your head spins and you fall back, nauseated. \nYou can feel your strength slipping away, as the world slowly fades into black around you.']
       
 
 
@@ -800,12 +805,13 @@ te = ['Your glance at your leg, and quickly avert your eyes, \nfighting the urge
 a = input().lower()
 while a != '!skip':
     #the death condition
-    if TE > 5:
+    if TE > 4:
         print('You attempt to move, but your head spins and you fall back, nauseated. \nYou can feel your strength slipping away, as the world slowly fades into black around you.')
         death()
     #The player decides to gnaw/eat their leg off, this is the 'correct' path
     elif ('leg' in a) and check_direction(eat_list, a):
-        print('UNFINISHED TEXT (you dun gud)')
+        print('Gnawing off your leg \n(Quiet, quiet)')
+        print('Limping toward the cottage, \n(Quiet, quiet) \nNow you\'re on the doorstep, \nSitting inside, Shia LaBeouf. \nSharpening an axe, \n(Shia LaBeouf)')
         break
     #player tries to stand up
     elif a in up_list:
@@ -839,8 +845,6 @@ while a != '!skip':
 #COTTAGE
 
 #This bit should only be reached after a survivable encounter with the bear trap
-print('Gnawing off your leg \n(Quiet, quiet)')
-print('Limping toward the cottage, \n(Quiet, quiet) \nNow you\'re on the doorstep, \nSitting inside, Shia LaBeouf. \nSharpening an axe, \n(Shia LaBeouf)')
 
 print('What will you do now?')
 #While the player hasn't yet started the fight
@@ -859,6 +863,9 @@ while a != '!skip':
     if a == 'look':
         print('You can see Shia inside, completely focused on his axe. \nHis back is to you, if you snuck in now... \nHe wouldn\'t see you.')
         turn += 1
+        a = input().lower()
+    elif check_direction(fight_list, a) and check_direction(at_shia, a):
+        print('You won\'t be able to do that from the doorway will you?')
         a = input().lower()
     elif 'run' in a and (check_direction(cottage_list, a) or ('behind shia' or 'to shia' in a)):
         print('Throwing stealth to the wind, \you charge at Shia. \nHe turns, and his eyes widen as he discerns your intention. \nYou collide, and are both sent sprawling, \nhis axe flies out the window, forgotten.')
@@ -923,7 +930,7 @@ while a != '!skip':
                         a = input().lower()
     else:
         print('Please input a valid instruction')
-        continue
+        a = input().lower()
 
 
 #while the fight is ongoing
@@ -933,7 +940,8 @@ while a != '!skip':
         print('This, as it turns out, is your deathblow. Better luck next time.')
         death()
     elif shiaHealth == 0:
-        print('UNFINISHED TEXT u 1 tho')
+        print('------ \n------ \nFighting for your life with Shia Labeouf, \nWrestling a knife from Shia Labeouf, \nStab it in his kidney. \nSafe at last from Shia Labeouf.')
+        print('You limp into the dark woods, \nBlood oozing from your stump leg. \nYou\'ve won. You have beaten Shia Labeouf.')
         break
 
     #Wow, boolean is not a boolean value. How strange...
@@ -1243,19 +1251,7 @@ while a != '!skip':
         print('Please enter a valid input (punch or kick [a bodypart])')
         extraTurn = True
 
-#----------------------------------------------------
-#WINNING WOODS
 
-#This bit should only be reached after beating shia up
-print('second fight scene,  also not implemented yet \nWould you like to (w)in the fight or (d)ie?')
-a = input().lower()
-if a == 'd':
-    death()
-elif a == 'w':
-    None
-else:
-    print('invalid input')
-    a = input().lower()
 
 
 
