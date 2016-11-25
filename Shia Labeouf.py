@@ -836,6 +836,12 @@ while a != '!skip':
         TE += 2
         print(te[TE])
         a = input().lower()
+    #Trying to go somewhere
+    elif 'walk' in a or 'run' in a or 'sneak' in a:
+        print('You try to pull yourself upright, \nbut you damaged left leg collapses beneath you.')
+        TE += 1
+        print(te[TE])
+        a = input().lower()
     #help
     elif a == 'help':
         help_()
