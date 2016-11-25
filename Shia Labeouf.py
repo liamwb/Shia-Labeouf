@@ -642,13 +642,11 @@ def playerMoves(attackingBodypart, target):
 
         
 
-a =''
+a = input().lower()
 while a != '!skip':
-    a = input().lower()
     if 'help' in a:
         help_()
         a = input()
-        continue
     elif 'go' in a:
         print('------')
         print('You\'re walking in the woods,\nthere\'s no one around and your phone is dead. \nout of the corner of your eye you spot him\n... \n... \nShia Labeouf.')
@@ -663,6 +661,7 @@ while a != '!skip':
 
 #place variable stores where the player is
 place = 'woods1'
+a = ''
 print('He\'s following you, \'bout thirty feet back, \nHe gets down on all fours and breaks into a sprint. \nHe\'s gaining on you!')
 a = input().lower()
 #looked variable... To see if the player has looked.
