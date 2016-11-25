@@ -678,14 +678,8 @@ while a != '!skip':
         print('You turn to look once again, and before you know it he is upon you! \nYou feel his teeth sink into your neck, and a sharp pain in your kidneys.')
         death()
     #run toward shia and die
-    elif ('run' or 'walk' or 'sneak' in a) and check_direction(to_list, a) and check_direction(at_shia, a):
+    elif ('run' in a or 'walk' in a or 'sneak' in a) and check_direction(to_list, a) and check_direction(at_shia, a):
         print('As you approach Shia, he opens his arms and embraces you. \nYou feel safe for a second, until you feel a knife sliding through your ribs, \nand his teeth sink into your neck.')
-        death()
-    #walk away from shia, die
-    elif 'walk' in a:
-        print('You turn and walk hurriedly away from Shia, Struggling to keep up the pretence of calm.')
-        print('You can hear his footsteps growing louder behind you, \nIn your haste you trip on a fallen brach, falling at Shia\'s feet.')
-        print('His knee falls heavily into the small of your back, jarring your spine. \nYou feel his teeth on the back of your neck, \nThen lose conciousness as your spinal cord is ripped from beneath your skin.')
         death()
     #sneak for some reason, die
     elif 'sneak' in a:
@@ -709,7 +703,17 @@ while a != '!skip':
             print('I don\'t understand where you want to run, \nwhat did you want to do?')
     #if they try and attack
     elif check_direction(fight_list, a) and check_direction(at_shia, a):
-        print('UNFINISHED (you try to fight shia and die)')
+        print('You fling yourself at Shia, but he calmly chops through your desperate attack.')
+        death()
+    #move away from shia, die
+    elif 'walk' in a or 'sneak' in a:
+        print('You turn and walk hurriedly away from Shia, Struggling to keep up the pretence of calm.')
+        print('You can hear his footsteps growing louder behind you, \nIn your haste you trip on a fallen brach, falling at Shia\'s feet.')
+        print('His knee falls heavily into the small of your back, jarring your spine. \nYou feel his teeth on the back of your neck, \nThen lose conciousness as your spinal cord is ripped from beneath your skin.')
+        death()
+    #running somewhere else
+    elif 'run' in a:
+        print('You run desperately, and trip on a fallen branch. \nShia pounces on you, first breaking you arm with a satisfying crunch, \nhe goes methodically about dismantling your body.')
         death()
     #if they want help
     elif a == 'help':
