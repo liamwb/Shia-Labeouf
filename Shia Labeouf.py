@@ -900,7 +900,10 @@ while a != '!skip':
         print('You walk calmly into the cottage, footsteps echoing on the hardwood floor. \nShia stands, and smiles, throwing his axe aside. \nIt\'s time to fight, and you no longer have the element of surprise.')
         theOdds = walkedIn
         break
-    elif  a == 'sneak inside' or ('sneak' in a and (check_direction(cottage_list, a) or ('behind shia' or 'to shia' in a))):
+    elif check_direction(away_list, a):
+        print('You turn, suddenly overcome by panic you sprint, crashng through the underbrush, \nJust as Shia\'s axe crashes into you head.')
+        death()
+    elif a == 'sneak inside' or ('sneak' in a and check_direction(cottage_list, a) or ('behind shia' or 'to shia' in a)):
         theOdds = snuckIn
         print('You creep silently into the cottage, crouching behind Shia\'s chair.')
         turn += 1
