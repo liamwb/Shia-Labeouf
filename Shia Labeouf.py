@@ -160,7 +160,7 @@ def shiaMoves():
                 a = input().lower()
                 if a == 'block':
                     if leftArm.dismembered:
-                        print('Your bring your left arm up to defend, \nbefore realising that you no longer possess one. \nShia\'s fist crashes into you, knocking you backwards.')
+                        print('You bring your left arm up to defend, \nbefore realising that you no longer possess one. \nShia\'s fist crashes into you, knocking you backwards.')
                         playerHealth -= 20
                         return
                     elif leftHand.dismembered:
@@ -739,7 +739,7 @@ a = input().lower()
 while a != '!skip':
     #first look
     if 'look' in a and looked == False:
-        print('You scan your surroundings... \nThe woods around you feel dark and forboding \nTo the west you can barely spot the last rays of the sun, \nas it slips beneath the horizon, \nBut to the South! A faint light shines.')
+        print('You scan your surroundings... \nThe woods around you feel dark and foreboding \nTo the west you can barely spot the last rays of the sun, \nas it slips beneath the horizon, \nBut to the South! A faint light shines.')
         looked = True
         a = input().lower()
     #second look
