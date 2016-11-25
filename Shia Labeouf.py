@@ -887,7 +887,7 @@ while a != '!skip':
         theOdds = ranIn
         break
     elif 'walk' in a and (check_direction(cottage_list, a) or ('behind shia' or 'to shia' in a)):
-        print('You walk calmly into the cottage, footsteps echoing on the hardwood floor. \nShia stands, and smiles, throwing his axe aside. \nIt\'s time to fight, and you no longer have the element of suprise.')
+        print('You walk calmly into the cottage, footsteps echoing on the hardwood floor. \nShia stands, and smiles, throwing his axe aside. \nIt\'s time to fight, and you no longer have the element of surprise.')
         theOdds = walkedIn
         break
     elif  a == 'sneak inside' or ('sneak' in a and (check_direction(cottage_list, a) or ('behind shia' or 'to shia' in a))):
@@ -1048,7 +1048,7 @@ while a != '!skip':
     elif 'punch' in a and 'neck' in a:
         boolean = playerMoves('hand', 'neck')
         if boolean:
-            print('You lash your fist into Shia\'s neck, \nhe coughs, suprised.')
+            print('You lash your fist into Shia\'s neck, \nhe coughs, surprised.')
             continue
         elif not boolean:
             print('You lash your fist at Shia\'s neck, \nBut he intercepts your blow with ease.')
